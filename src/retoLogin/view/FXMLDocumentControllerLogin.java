@@ -22,7 +22,7 @@ import javafx.scene.control.TextField;
 /**
  * FXML Controller class
  *
- * @author 2dam
+ * @author Daira
  */
 public class FXMLDocumentControllerLogin implements Initializable {
     @FXML

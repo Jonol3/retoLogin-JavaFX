@@ -24,7 +24,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -33,10 +35,7 @@ import javafx.stage.Stage;
  * @author Daira
  */
 public class FXMLDocumentControllerLogin implements Initializable {
-    @FXML
-    private Label lblLogin;
-    @FXML
-    private Label lblPassword;
+   
     @FXML
     private Button btnLogin;
     @FXML
@@ -44,7 +43,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
     @FXML
     private TextField txtFieldLogin;
     @FXML
-    private TextField txtFieldPassword;
+    private PasswordField txtFieldPassword;
     
     
     /**
@@ -77,7 +76,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
     
     private void handleLoginButtonAction(){
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher("I am a string");
+        Matcher m = p.matcher(txtFieldLogin.getText());
         boolean specialChars = m.find();
         //THE LIMITER SHOULD DO ITS JOB, BUT STILL I AM CHECKING THE LENGTH 
         //JUST IN CASE...
@@ -91,14 +90,13 @@ public class FXMLDocumentControllerLogin implements Initializable {
         }else if(txtFieldLogin.getText().length()<1 || txtFieldPassword
                 .getText().length()<1){
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Empty username or password.");
+            alert.setTitle("Empty username/password.");
             alert.setHeaderText(null);
             alert.setContentText("You must enter a username and a password.");
             
             alert.showAndWait();
         }else{
                         //TRY TO CONNECT AND ALL THAT MOVIDA
-
         }
     }
     
@@ -122,7 +120,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
         }
     }
 /**
- * Limits the login textfield.
+ * Limits the login(username) textfield.
  * @param tf
  * @param maxLength 
  */

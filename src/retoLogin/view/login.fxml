@@ -12,32 +12,32 @@
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
 fx:controller="retoLogin.view.FXMLDocumentControllerLogin">
    <children>
-      <TextField id="lblLogin" layoutX="258.0" layoutY="117.0">
+      <TextField fx:id= "txtFieldLogin" id="txtFieldLogin" layoutX="258.0" layoutY="117.0">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <PasswordField id="lblPassword" layoutX="258.0" layoutY="183.0">
+      <PasswordField id="txtFieldPassword" fx:id="txtFieldPassword" layoutX="258.0" layoutY="183.0">
          <font>
             <Font size="14.0" />
          </font>
       </PasswordField>
-      <Button id="btnSignUp" layoutX="155.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Sign Up">
+      <Button id="btnSignUp" fx:id="btnSignUp" layoutX="155.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Sign Up">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button id="btnLogin" layoutX="335.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Login">
+      <Button id="btnLogin" fx:id="btnLogin" layoutX="335.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Login">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Text id="txtFieldLogin" layoutX="155.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login:">
+      <Text id="txtLogin" fx:id="txtLogin" layoutX="155.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login:">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text id="txtFieldPassword" layoutX="156.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
+      <Text id="txtPassword" fx:id="txtPassword" layoutX="156.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
          <font>
             <Font size="18.0" />
          </font>

@@ -77,7 +77,12 @@ public class FXMLDocumentControllerLogin implements Initializable {
         //THE LIMITER SHOULD DO ITS JOB, BUT STILL I AM CHECKING THE LENGTH 
         //JUST IN CASE...
         if(txtFieldLogin.getText().length()>30 || specialChars){
-           
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Invalid username.");
+            alert.setHeaderText(null);
+            alert.setContentText("You must enter a valid username.");
+            
+            alert.showAndWait();
         }else if(txtFieldLogin.getText().length()<1 || txtFieldPassword
                 .getText().length()<1){
             Alert alert = new Alert(AlertType.INFORMATION);

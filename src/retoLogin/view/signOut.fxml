@@ -5,35 +5,43 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="retoLogin.view.FXMLDocumentControllerSignOut">
-   <children>
-      <Label layoutX="171.0" layoutY="109.0" text="Welcome, [fullName]">
-         <font>
-            <Font size="28.0" />
-         </font>
-      </Label>
-      <Button layoutX="256.0" layoutY="261.0" mnemonicParsing="false" text="Log Out">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <MenuBar>
+
+<BorderPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="retoLogin.view.FXMLDocumentControllerSignOut">
+   <center>
+      <Pane id="pnMainPane" fx:id="pnMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label id="lbGreeting" fx:id="lbGreeting" layoutX="171.0" layoutY="109.0" text="Welcome, [fullName]">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Button id="btLogOut" fx:id="btLogOut" layoutX="256.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleButtonLogOut" text="Log Out">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <MenuBar id="mnTopMenu" fx:id="mnTopMenu" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu id="mntFile" fx:id="mntFile" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem id="mnddClose" fx:id="mnddClose" mnemonicParsing="false" onAction="#handleButtonClose" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu id="mntHelp" fx:id="mntHelp" mnemonicParsing="false" text="Help">
             <items>
-                  <MenuItem mnemonicParsing="false" text="How it works" />
-              <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem id="mnddWorks" fx:id="mnddWorks" mnemonicParsing="false" onAction="#handleButtonWorks" text="How it works" />
+              <MenuItem id="mnddAbout" fx:id="mnddAbout" mnemonicParsing="false" onAction="#handleButtonAbout" text="About" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-   </children>
-</Pane>
+   </top>
+</BorderPane>

@@ -7,6 +7,8 @@ package retoLogin.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -44,28 +46,57 @@ public class FXMLDocumentControllerLogin implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnLogin.setOnAction(this::handleButtonAction);
+        btnLogin.setOnAction(this::handleLoginButtonAction);
+        btnSignUp.setOnAction(this::handleSignUpButtonAction);
+        
         addTextLimiter(txtFieldLogin, 30);
     }
     
-    
-    private void handleButtonAction(ActionEvent e){
-        if(txtFieldLogin.getText().length()>30){
+    /**
+     * When the button is clicked on, this method will try to
+     * sign up the user. Controlls wether the data entered is 
+     * valid or not.
+     * @param e 
+     */
+    private void handleLoginButtonAction(ActionEvent e){
+        Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher("I am a string");
+        boolean specialChars = m.find();
+        //THE LIMITER SHOULD DO ITS JOB, BUT STILL I AM CHECKING THE LENGTH 
+        //JUST IN CASE...
+        if(txtFieldLogin.getText().length()>30 || specialChars){
+           
+        }else if(txtFieldLogin.getText().length()<1 || txtFieldPassword
+                .getText().length()<1){
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Invalid Username");
+            alert.setTitle("Empty username.");
             alert.setHeaderText(null);
-            alert.setContentText("You must enter a valid username.");
-
+            alert.setContentText("You must enter a username.");
+            
             alert.showAndWait();
         }else{
-            //PUES ESO, QUE INTENTE LOGEAR Y ESA MOVIDA
+                        //TRY TO CONNECT AND ALL THAT MOVIDA
+
         }
     }
-
+    
+    /**
+     * Opens the sign up window.
+     * @param e 
+     */
+    private void handleSignUpButtonAction(ActionEvent e){
+       
+    }
+/**
+ * Limits the sent textfield.
+ * @param tf
+ * @param maxLength 
+ */
     public static void addTextLimiter(final TextField tf, final int maxLength) {
     tf.textProperty().addListener(new ChangeListener<String>() {
         @Override
-        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+        public void changed(final ObservableValue<? extends String> ov, 
+                final String oldValue, final String newValue) {
             if (tf.getText().length() > maxLength) {
                 String s = tf.getText().substring(0, maxLength);
                 tf.setText(s);

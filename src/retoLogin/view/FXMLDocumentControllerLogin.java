@@ -9,10 +9,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -46,8 +46,19 @@ public class FXMLDocumentControllerLogin implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnLogin.setOnAction(this::handleLoginButtonAction);
-        btnSignUp.setOnAction(this::handleSignUpButtonAction);
+        btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                 handleLoginButtonAction();
+            }
+        });
+        
+        btnSignUp.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                    handleSignUpButtonAction();
+            }
+        });
         
         addTextLimiter(txtFieldLogin, 30);
     }
@@ -58,7 +69,8 @@ public class FXMLDocumentControllerLogin implements Initializable {
      * valid or not.
      * @param e 
      */
-    private void handleLoginButtonAction(ActionEvent e){
+    
+    private void handleLoginButtonAction(){
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher("I am a string");
         boolean specialChars = m.find();
@@ -84,11 +96,11 @@ public class FXMLDocumentControllerLogin implements Initializable {
      * Opens the sign up window.
      * @param e 
      */
-    private void handleSignUpButtonAction(ActionEvent e){
+    private void handleSignUpButtonAction(){
        
     }
 /**
- * Limits the sent textfield.
+ * Limits the login textfield.
  * @param tf
  * @param maxLength 
  */
@@ -104,6 +116,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
         }
     });
 }
+
  
     
 }

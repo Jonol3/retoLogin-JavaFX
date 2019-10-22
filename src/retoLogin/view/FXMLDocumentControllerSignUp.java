@@ -45,6 +45,8 @@ public class FXMLDocumentControllerSignUp{
     public void initialize() {
         //Register button will be disabled
         btnRegister.setDisable(true);
+        
+        btnRegister.setOnAction(this::handleBtnRegister);
         //Redo button will be disabled
         btnRedo.setDisable(true);
         //Full Name TextField will have the focus

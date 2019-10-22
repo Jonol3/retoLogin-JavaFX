@@ -5,6 +5,7 @@
  */
 package retoLogin.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -14,12 +15,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -56,7 +62,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
         btnSignUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    handleSignUpButtonAction();
+                    handleSignUpButtonAction(event);
             }
         });
         
@@ -64,10 +70,9 @@ public class FXMLDocumentControllerLogin implements Initializable {
     }
     
     /**
-     * When the button is clicked on, this method will try to
-     * sign up the user. Controlls wether the data entered is 
+     * this will try to log in the user.
+     * Controlls wether the data entered is 
      * valid or not.
-     * @param e 
      */
     
     private void handleLoginButtonAction(){
@@ -86,9 +91,9 @@ public class FXMLDocumentControllerLogin implements Initializable {
         }else if(txtFieldLogin.getText().length()<1 || txtFieldPassword
                 .getText().length()<1){
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Empty username.");
+            alert.setTitle("Empty username or password.");
             alert.setHeaderText(null);
-            alert.setContentText("You must enter a username.");
+            alert.setContentText("You must enter a username and a password.");
             
             alert.showAndWait();
         }else{
@@ -99,10 +104,22 @@ public class FXMLDocumentControllerLogin implements Initializable {
     
     /**
      * Opens the sign up window.
-     * @param e 
+     * @param event 
      */
-    private void handleSignUpButtonAction(){
-       
+    private void handleSignUpButtonAction(ActionEvent event){
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/FXMLDocumentSignUpController"));
+            Stage stage = new Stage();
+            stage.setTitle("Sign Up");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+            // Hide this current window (if this is what you want)
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+        }
+        catch (IOException e) {
+            e.getMessage();
+        }
     }
 /**
  * Limits the login textfield.

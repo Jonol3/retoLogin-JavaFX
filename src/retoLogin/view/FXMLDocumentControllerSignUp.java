@@ -5,23 +5,65 @@
  */
 package retoLogin.view;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+
+
 
 /**
  * FXML Controller class
  *
- * @author 2dam
+ * @author Unai Pérez Sánchez
  */
-public class FXMLDocumentControllerSignUp implements Initializable {
-
+public class FXMLDocumentControllerSignUp{
+    private Logger LOGGER = Logger.getLogger("retoLogin.view.FXMLDocumentControllerSignUp");
+    @FXML
+    private TextField tfFullName;
+    @FXML
+    private TextField tfEmail;
+    @FXML
+    private TextField tfLogin;
+    @FXML
+    private PasswordField pfPassword;
+    @FXML
+    private PasswordField pfConfirm;
+    @FXML
+    private Button btnCancel;
+    @FXML
+    private Button btnUndo;
+    @FXML
+    private Button btnRedo;
+    @FXML
+    private Button btnRegister;
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public void initialize() {
+        //Register button will be disabled
+        btnRegister.setDisable(true);
+        //Redo button will be disabled
+        btnRedo.setDisable(true);
+        //Full Name TextField will have the focus
+        tfFullName.requestFocus();
     }    
     
+    public void handleBtnCancel(ActionEvent e){
+        
+    }
+    
+    public void handleBtnUndo(ActionEvent e){
+        
+    }
+    
+    public void handleBtnRedo(ActionEvent e){
+        
+    }
+    
+    public void handleBtnRegister(ActionEvent e){
+        
+    }
 }

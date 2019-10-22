@@ -34,39 +34,39 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField id="tfFullName" layoutX="210.0" layoutY="61.0" prefHeight="26.0" prefWidth="296.0">
+      <TextField id="tfFullName" fx:id="tfFullName" layoutX="210.0" layoutY="61.0" prefHeight="26.0" prefWidth="296.0">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField id="tfEmail" layoutX="210.0" layoutY="113.0" prefHeight="30.0" prefWidth="296.0">
+      <TextField id="tfEmail" fx:id="tfEmail" layoutX="210.0" layoutY="113.0" prefHeight="30.0" prefWidth="296.0">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField id="tfLogin" layoutX="210.0" layoutY="167.0" prefHeight="30.0" prefWidth="296.0">
+      <TextField id="tfLogin" fx:id="tfLogin" layoutX="210.0" layoutY="167.0" prefHeight="30.0" prefWidth="296.0">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <PasswordField id="pfPassword" layoutX="210.0" layoutY="221.0" prefHeight="30.0" prefWidth="296.0" />
-      <PasswordField id="pfConfirm" layoutX="210.0" layoutY="275.0" prefHeight="30.0" prefWidth="296.0" />
-      <Button id="btnCancel" layoutX="55.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Cancel">
+      <PasswordField id="pfPassword" fx:id="pfPassword" layoutX="210.0" layoutY="221.0" prefHeight="30.0" prefWidth="296.0" />
+      <PasswordField id="pfConfirm" fx:id="pfConfirm" layoutX="210.0" layoutY="275.0" prefHeight="30.0" prefWidth="296.0" />
+      <Button id="btnCancel" fx:id="btnCancel" layoutX="55.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Cancel">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button id="btnUndo" layoutX="226.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Undo">
+      <Button id="btnUndo" fx:id="btnUndo" layoutX="226.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Undo">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button id="btnRedo" layoutX="334.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Redo">
+      <Button id="btnRedo" fx:id="btnRedo" layoutX="334.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Redo">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button id="btnRegister" layoutX="507.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Register">
+      <Button id="btnRegister" fx:id="btnRegister" layoutX="507.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Register">
          <font>
             <Font size="14.0" />
          </font>

@@ -28,6 +28,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import retoLogin.User;
 
 /**
  * FXML Controller class
@@ -45,16 +46,19 @@ public class FXMLDocumentControllerLogin implements Initializable {
     @FXML
     private PasswordField txtFieldPassword;
     
+    User user = new User();
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+           
         btnLogin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                 handleLoginButtonAction();
+                 handleLoginButtonAction(txtFieldLogin.getText(),
+                         txtFieldPassword.getText());
             }
         });
         
@@ -72,31 +76,37 @@ public class FXMLDocumentControllerLogin implements Initializable {
      * this will try to log in the user.
      * Controlls wether the data entered is 
      * valid or not.
+     * @param login
+     * @param passwd
      */
     
-    private void handleLoginButtonAction(){
+    public int handleLoginButtonAction(String login, String passwd){
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(txtFieldLogin.getText());
+        Matcher m = p.matcher(login);
         boolean specialChars = m.find();
         //THE LIMITER SHOULD DO ITS JOB, BUT STILL I AM CHECKING THE LENGTH 
         //JUST IN CASE...
-        if(txtFieldLogin.getText().length()>30 || specialChars){
+        if(login.length()>30 || specialChars){
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Invalid username.");
             alert.setHeaderText(null);
             alert.setContentText("You must enter a valid username.");
             
             alert.showAndWait();
-        }else if(txtFieldLogin.getText().length()<1 || txtFieldPassword
-                .getText().length()<1){
+            return 1;
+        }else if(login.length()<1 || passwd.length()<1){
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Empty username/password.");
             alert.setHeaderText(null);
             alert.setContentText("You must enter a username and a password.");
             
             alert.showAndWait();
+            return 2;
         }else{
+            user.setLogin(login);
+            user.setPassword(passwd);
                         //TRY TO CONNECT AND ALL THAT MOVIDA
+        return 3;
         }
     }
     

@@ -8,6 +8,8 @@ package retoLogin.view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.beans.value.ChangeListener;
@@ -23,12 +25,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import retoLogin.User;
+import retoLogin.exceptions.*;
+
 
 /**
  * FXML Controller class
@@ -65,11 +67,16 @@ public class FXMLDocumentControllerLogin implements Initializable {
         btnSignUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                try {
                     handleSignUpButtonAction(event);
+                } catch (BadLoginException ex) {
+                    Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
         addTextLimiter(txtFieldLogin, 30);
+        addTextLimiter(txtFieldPassword, 50);
     }
     
     /**
@@ -103,9 +110,41 @@ public class FXMLDocumentControllerLogin implements Initializable {
             alert.showAndWait();
             return 2;
         }else{
-            user.setLogin(login);
-            user.setPassword(passwd);
-                        //TRY TO CONNECT AND ALL THAT MOVIDA
+           /* try{
+                 user.setLogin(login);
+                 user.setPassword(passwd);
+                 
+            //TRY TO CONNECT AND ALL THAT MOVIDA
+            }catch(LoginException e){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Unexpected error");
+
+                alert.showAndWait();
+            }catch(NoThreadAvailableException e){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Busy server. Please wait.");
+
+                alert.showAndWait();    
+
+            }catch(BadLoginException e){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Invalid User.");
+                alert.setHeaderText(null);
+                alert.setContentText("The user you have entered is not correct.");
+
+                alert.showAndWait();
+            }catch(BadPasswordException e){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Empty username/password.");
+                alert.setHeaderText(null);
+                alert.setContentText("The password you have entered is not correct.");
+
+                alert.showAndWait();
+            }*/
         return 3;
         }
     }
@@ -114,7 +153,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
      * Opens the sign up window.
      * @param event 
      */
-    private void handleSignUpButtonAction(ActionEvent event){
+    private void handleSignUpButtonAction(ActionEvent event) throws BadLoginException{
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("view/FXMLDocumentSignUpController"));
@@ -134,7 +173,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
  * @param tf
  * @param maxLength 
  */
-    public static void addTextLimiter(final TextField tf, final int maxLength) {
+    public static void addTextLimiter(final TextField tf, final int maxLength){
     tf.textProperty().addListener(new ChangeListener<String>() {
         @Override
         public void changed(final ObservableValue<? extends String> ov, 
@@ -145,6 +184,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
             }
         }
     });
+    
 }
 
  

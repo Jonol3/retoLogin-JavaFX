@@ -33,7 +33,10 @@ public class FXMLDocumentControllerLoginIT {
          assertEquals("", clase
                  .handleLoginButtonAction("",""), 2);
          assertEquals("", clase
-                 .handleLoginButtonAction(VALIDUSERNAME,PASSWORD), 3);   
+                 .handleLoginButtonAction(VALIDUSERNAME,PASSWORD), 3); 
+         //NOTE: THERE ISN'T ANYTHING SUCH AS AN INVALID PASSWORD, AS THE
+         //USER CAN USE THE CHARACTERS THEY WANT. THE ONLY INVALID PASSWORD IS
+         //AN EMPTY PASSWORD OR A REALLY LONG PASSWORD(like 50 chars aprox.).
     }
     
 }

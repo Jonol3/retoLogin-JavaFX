@@ -21,12 +21,14 @@ import retoLogin.exceptions.*;
  */
 public class ClientImplementation implements Client{
     private final int PUERTO = 5001;
-    private final String IP = "127.0.0.1";
-        
+    private final String IP = "192.168.21.72";
+    private Logger LOGGER =  Logger.getLogger("retoLogin.control.ClientImplementation");
+    
     public static void main(String[] args) {
          ClientImplementation c = new ClientImplementation();
          c.prueba();
     }
+    @Override
     public void prueba() {
       User u= new User();
       u.setLogin("abc");
@@ -52,9 +54,10 @@ public class ClientImplementation implements Client{
 		salida.writeObject(message);
                 
                 //HACERLE ESPERAR Y TAL
-                
-                Message m = (Message) entrada.readObject();
-                int result = m.getType();
+                String s = "";
+                 s = (String) entrada.readObject();
+                //int result = m.getType();
+                 LOGGER.info("Message get: \n"+s);
                 
            
 	} catch (IOException e) {
@@ -113,7 +116,7 @@ public class ClientImplementation implements Client{
                     case 3:
                         throw new
                            BadPasswordException("The password is not correct.");
-                    default:
+                    case 4:
                         throw new
                            NoThreadAvailableException("Server Busy.");
                 }

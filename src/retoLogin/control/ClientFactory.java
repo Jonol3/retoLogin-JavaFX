@@ -10,5 +10,8 @@ package retoLogin.control;
  * @author 2dam
  */
 public class ClientFactory {
+    public static Client getClient(){
+        return new ClientImplementation();
+    }
     
 }

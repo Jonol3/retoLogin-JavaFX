@@ -29,6 +29,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import retoLogin.User;
+import retoLogin.control.Client;
+import retoLogin.control.ClientFactory;
 import retoLogin.exceptions.*;
 
 
@@ -110,9 +112,13 @@ public class FXMLDocumentControllerLogin implements Initializable {
             alert.showAndWait();
             return 2;
         }else{
-           /* try{
+           try{
                  user.setLogin(login);
                  user.setPassword(passwd);
+                 
+                 
+                 Client client = ClientFactory.getClient();
+                 user = client.loginUser(user);
                  
             //TRY TO CONNECT AND ALL THAT MOVIDA
             }catch(LoginException e){
@@ -122,7 +128,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 alert.setContentText("Unexpected error");
 
                 alert.showAndWait();
-            }catch(NoThreadAvailableException e){
+            }catch(BadLoginException e){
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
@@ -130,7 +136,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
 
                 alert.showAndWait();    
 
-            }catch(BadLoginException e){
+            }catch(NoThreadAvailableException e){
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Invalid User.");
                 alert.setHeaderText(null);
@@ -144,9 +150,21 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 alert.setContentText("The password you have entered is not correct.");
 
                 alert.showAndWait();
-            }*/
-        return 3;
+            }
+       
+        Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass()
+                        .getResource("view/signOut.fxml"));
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        FXMLDocumentControllerSignOut controller = new FXMLDocumentControllerSignOut();
+        controller.setUser(user);
+        controller.initStage(root);
+        
         }
+         return 3;
     }
     
     /**

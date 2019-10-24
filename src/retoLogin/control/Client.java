@@ -5,10 +5,24 @@
  */
 package retoLogin.control;
 
+import retoLogin.Message;
+import retoLogin.User;
+import retoLogin.exceptions.*;
 /**
  *
  * @author 2dam
  */
 public interface Client {
+    
+    
+    public User loginUser(User user) throws LoginException, 
+            BadLoginException, BadPasswordException, NoThreadAvailableException;
+    
+    public Message registerUser(User user) throws RegisterException, 
+            AlreadyExistsException;
+
+    public void prueba();
+
+    
     
 }

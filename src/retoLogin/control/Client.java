@@ -10,7 +10,7 @@ import retoLogin.User;
 import retoLogin.exceptions.*;
 /**
  *
- * @author 2dam
+ * @author Daira
  */
 public interface Client {
     

@@ -27,8 +27,6 @@ public class ClientImplementation implements Client{
          ClientImplementation c = new ClientImplementation();
          c.prueba();
     }
-    
-    
     public void prueba() {
       User u= new User();
       u.setLogin("abc");

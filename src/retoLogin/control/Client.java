@@ -18,10 +18,10 @@ public interface Client {
     public User loginUser(User user) throws LoginException, 
             BadLoginException, BadPasswordException, NoThreadAvailableException;
     
-    public Message registerUser(User user) throws RegisterException, 
+    public User registerUser(User user) throws RegisterException, 
             AlreadyExistsException;
-
-    public void prueba();
+    
+    //public void prueba();
 
     
     

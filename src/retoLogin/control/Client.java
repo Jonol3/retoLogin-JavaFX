@@ -20,7 +20,6 @@ public interface Client {
     public User registerUser(User user) throws RegisterException, 
             AlreadyExistsException, NoThreadAvailableException;
     
-    /*public void prueba();*/
 
     
     

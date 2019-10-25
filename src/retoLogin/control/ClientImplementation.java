@@ -39,61 +39,7 @@ public class ClientImplementation implements Client{
                     .log(Level.SEVERE, null, ex);
         }
     }
-    /*
-    @Override
-    public void prueba() {
-      User u= new User();
-      u.setLogin("abc");
-      u.setPassword("dfghdgfh");
-      u.setEmail("abd@gmail.com");
-      u.setFullName("Nombre");
-       
-       Message message = new Message(); 
-       message.setUser(u);
-       message.setType(1);
-       Socket cliente = null;
-       ObjectInputStream entrada = null;
-       ObjectOutputStream salida = null;
-       
-       try {
-
-		cliente = new Socket(IP, PUERTO);
-		LOGGER.info("Conexión realizada con servidor");
-
-		salida = new ObjectOutputStream(cliente.getOutputStream());
-		entrada = new ObjectInputStream(cliente.getInputStream()); 	
-	
-		salida.writeObject(message);
-                
-                //HACERLE ESPERAR Y TAL
-                String s = "";
-                 s = (String) entrada.readObject();
-                //int result = m.getType();
-                 LOGGER.info("Message get: \n"+s);
-                
-           
-	} catch (IOException e) {
-		LOGGER.info("Error: " + e.getMessage());
-	} catch (ClassNotFoundException ex) {
-            Logger.getLogger(ClientImplementation.class.getName()).log(Level
-                    .SEVERE, null, ex);
-        } finally {
-		try {
-			if (cliente != null)
-				cliente.close();
-			if (entrada != null)
-				entrada.close();
-
-			if (salida != null)
-				salida.close();
-		} catch (IOException e) {
-			e.getStackTrace();
-		}
-	}
-       
-    }
-    */
-    
+   
     /**
      * Method that connects with a server using a socket and returns a message 
      * with the user that's trying to log in (if everything's okay) and the 

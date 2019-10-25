@@ -5,12 +5,11 @@
  */
 package retoLogin.control;
 
-import retoLogin.Message;
 import retoLogin.User;
 import retoLogin.exceptions.*;
 /**
  *
- * @author Daira
+ * @author Daira Eguzkiza
  */
 public interface Client {
     
@@ -19,9 +18,9 @@ public interface Client {
             BadLoginException, BadPasswordException, NoThreadAvailableException;
     
     public User registerUser(User user) throws RegisterException, 
-            AlreadyExistsException;
+            AlreadyExistsException, NoThreadAvailableException;
     
-    //public void prueba();
+    /*public void prueba();*/
 
     
     

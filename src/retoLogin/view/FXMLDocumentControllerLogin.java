@@ -33,14 +33,13 @@ import retoLogin.control.Client;
 import retoLogin.control.ClientFactory;
 import retoLogin.exceptions.*;
 
-
 /**
  * FXML Controller class
  *
- * @author Daira
+ * @author Daira Eguzkiza
  */
 public class FXMLDocumentControllerLogin implements Initializable {
-   
+
     @FXML
     private Button btnLogin;
     @FXML
@@ -49,23 +48,23 @@ public class FXMLDocumentControllerLogin implements Initializable {
     private TextField txtFieldLogin;
     @FXML
     private PasswordField txtFieldPassword;
-    
+
     User user = new User();
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-           
+
         btnLogin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                 handleLoginButtonAction(txtFieldLogin.getText(),
-                         txtFieldPassword.getText());
+                handleLoginButtonAction(txtFieldLogin.getText(),
+                        txtFieldPassword.getText());
             }
         });
-        
+
         btnSignUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -76,74 +75,73 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 }
             }
         });
-        
+
         addTextLimiter(txtFieldLogin, 30);
         addTextLimiter(txtFieldPassword, 50);
     }
-    
+
     /**
-     * this will try to log in the user.
-     * Controlls wether the data entered is 
+     * This will try to log in the user. Controlls wether the data entered is
      * valid or not.
-     * @param login
-     * @param passwd
+     *
+     * @param login The username.
+     * @param passwd The password for that user.
+     * @return
      */
-    
-    public int handleLoginButtonAction(String login, String passwd){
+    public int handleLoginButtonAction(String login, String passwd) {
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(login);
         boolean specialChars = m.find();
         //THE LIMITER SHOULD DO ITS JOB, BUT STILL I AM CHECKING THE LENGTH 
         //JUST IN CASE...
-        if(login.length()>30 || specialChars){
+        if (login.length() > 30 || specialChars) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Invalid username.");
             alert.setHeaderText(null);
             alert.setContentText("You must enter a valid username.");
-            
+
             alert.showAndWait();
             return 1;
-        }else if(login.length()<1 || passwd.length()<1){
+        } else if (login.length() < 1 || passwd.length() < 1) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Empty username/password.");
             alert.setHeaderText(null);
             alert.setContentText("You must enter a username and a password.");
-            
+
             alert.showAndWait();
             return 2;
-        }else{
-           try{
-                 user.setLogin(login);
-                 user.setPassword(passwd);
-                 
-                 
-                 Client client = ClientFactory.getClient();
-                 user = client.loginUser(user);
-                 
-            //TRY TO CONNECT AND ALL THAT MOVIDA
-            }catch(LoginException e){
+        } else {
+            try {
+                user.setLogin(login);
+                user.setPassword(passwd);
+
+                Client client = ClientFactory.getClient();
+                user = client.loginUser(user);
+
+                //TRY TO CONNECT AND ALL THAT MOVIDA
+            } catch (LoginException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
                 alert.setContentText("Unexpected error");
 
                 alert.showAndWait();
-            }catch(BadLoginException e){
+            } catch (BadLoginException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
                 alert.setContentText("Busy server. Please wait.");
 
-                alert.showAndWait();    
+                alert.showAndWait();
 
-            }catch(NoThreadAvailableException e){
+            } catch (NoThreadAvailableException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Invalid User.");
                 alert.setHeaderText(null);
                 alert.setContentText("The user you have entered is not correct.");
 
                 alert.showAndWait();
-            }catch(BadPasswordException e){
+            } catch (BadPasswordException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Empty username/password.");
                 alert.setHeaderText(null);
@@ -151,27 +149,27 @@ public class FXMLDocumentControllerLogin implements Initializable {
 
                 alert.showAndWait();
             }
-       
-        Parent root = null;
+
+            Parent root = null;
             try {
                 root = FXMLLoader.load(getClass()
                         .getResource("view/signOut.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
-        FXMLDocumentControllerSignOut controller = new FXMLDocumentControllerSignOut();
-        controller.setUser(user);
-        controller.initStage(root);
-        
+            FXMLDocumentControllerSignOut controller = new FXMLDocumentControllerSignOut();
+            controller.setUser(user);
+            controller.initStage(root);
+
         }
-         return 3;
+        return 3;
     }
-    
-    /**
-     * Opens the sign up window.
-     * @param event 
-     */
-    private void handleSignUpButtonAction(ActionEvent event) throws BadLoginException{
+
+  /**
+   * This will try to open the sign up window.
+   * @param event
+   */
+    private void handleSignUpButtonAction(ActionEvent event) {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("view/FXMLDocumentSignUpController"));
@@ -179,32 +177,31 @@ public class FXMLDocumentControllerLogin implements Initializable {
             stage.setTitle("Sign Up");
             stage.setScene(new Scene(root, 450, 450));
             stage.show();
-            // Hide this current window (if this is what you want)
-            ((Node)(event.getSource())).getScene().getWindow().hide();
-        }
-        catch (IOException e) {
+            // Hides this current window (if this is what you want)
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } catch (IOException e) {
             e.getMessage();
         }
     }
-/**
- * Limits the login(username) textfield.
- * @param tf
- * @param maxLength 
- */
-    public static void addTextLimiter(final TextField tf, final int maxLength){
-    tf.textProperty().addListener(new ChangeListener<String>() {
-        @Override
-        public void changed(final ObservableValue<? extends String> ov, 
-                final String oldValue, final String newValue) {
-            if (tf.getText().length() > maxLength) {
-                String s = tf.getText().substring(0, maxLength);
-                tf.setText(s);
-            }
-        }
-    });
-    
-}
 
- 
-    
+    /**
+     * Limits the login(username) textfield.
+     *
+     * @param tf The textfield you want to limit.
+     * @param maxLength The maximum length the textfield is going to be.
+     */
+    public static void addTextLimiter(final TextField tf, final int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov,
+                    final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
+
+    }
+
 }

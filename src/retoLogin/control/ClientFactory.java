@@ -7,7 +7,7 @@ package retoLogin.control;
 
 /**
  *
- * @author Daira
+ * @author Daira Eguzkiza
  */
 public class ClientFactory {
     public static Client getClient(){

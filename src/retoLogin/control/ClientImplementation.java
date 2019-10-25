@@ -28,16 +28,37 @@ public class ClientImplementation implements Client{
         ClientImplementation c = new ClientImplementation();
         
          User u = new User();
-                    u.setLogin("Jon");
-                    u.setPassword("abcd*1234");
+         u.setLogin("Jonzdfgzdfg");
+         u.setPassword("abc*1234");
                     
+         User newUser = new User();
+         newUser.setEmail("alguien@gmail.com");
+         newUser.setFullName("alguien González");
+         newUser.setLogin("Alguien");
+         newUser.setPassword("abcd*1234");
+         newUser.setPrivilege(1);
+         newUser.setStatus(1);
+         
+        //PRUEBA CON LOGIN AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA          
+        /*
         try {
             c.loginUser(u);
         } catch (LoginException | BadLoginException | BadPasswordException | 
                 NoThreadAvailableException ex) {
             Logger.getLogger(ClientImplementation.class.getName())
                     .log(Level.SEVERE, null, ex);
+        }*/
+        //FIN PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        //PRUEBA CON REGISTRO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        try {
+            c.registerUser(newUser);
+        } catch (RegisterException | AlreadyExistsException | 
+                NoThreadAvailableException ex) {
+            Logger.getLogger(ClientImplementation.class.getName())
+                    .log(Level.SEVERE, null, ex);
         }
+        // FIN PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        
     }
    
     /**
@@ -64,7 +85,7 @@ public class ClientImplementation implements Client{
        ObjectOutputStream salida = null;
                 try {
                     cliente = new Socket(IP, PUERTO);
-                    LOGGER.info("Conexión realizada con servidor");
+                    LOGGER.info("Conexión realizada con el servidor");
 
                     salida = new ObjectOutputStream(cliente.getOutputStream());
                     entrada = new ObjectInputStream(cliente.getInputStream());
@@ -77,9 +98,9 @@ public class ClientImplementation implements Client{
                     //HACERLE ESPERAR Y TAL
                     Message m = (Message) entrada.readObject();
                     LOGGER.info("Objeto recibido");
-                    int result = m.getType();
-
-            switch (result) {
+                    LOGGER.info("respuesta: " + m.getType());
+                     
+            switch ( m.getType()) {
                 case 0:
                     user = m.getUser();
                     LOGGER.info(user.getFullName() + " "
@@ -88,12 +109,14 @@ public class ClientImplementation implements Client{
                 case 1:
                     throw new LoginException("Error trying to log in.");
                 case 2:
-                    throw new BadLoginException("Bad login.");
+                    throw new NoThreadAvailableException("Server is busy.");
                 case 3:
+                    throw new BadLoginException("Bad login.");
+                    
+                case 4:
                     throw new BadPasswordException("The password is not "
                             + "correct.");
-                case 4:
-                    throw new NoThreadAvailableException("Server Busy.");
+                    
             }
         } catch (IOException | ClassNotFoundException
                 | BadLoginException | BadPasswordException
@@ -151,23 +174,21 @@ public class ClientImplementation implements Client{
             salida.writeObject(message);
 
             Message m = (Message) entrada.readObject();
-            int result = m.getType();
-
-            switch (result) {
+            //LOGGER.info("Registrado bien: " + m.getUser().getFullName());
+            switch (m.getType()) {
                 case 0:
-                    user = m.getUser();
+                     LOGGER.info("TODO BIEN");
                     return user;
                 case 1:
                     throw new RegisterException("Error trying to log in.");
                 case 2:
-                    throw new AlreadyExistsException("Bad login.");
+                    throw new NoThreadAvailableException("Server is busy.");
                 case 3:
-                    throw new NoThreadAvailableException("Server Busy.");
+                    throw new AlreadyExistsException("User already exists.");
             }
 
         } catch (IOException | ClassNotFoundException | AlreadyExistsException |
                 NoThreadAvailableException | RegisterException e) {
-
             LOGGER.severe("Error: " + e.getMessage());
         } finally {
 

@@ -68,11 +68,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
         btnSignUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    handleSignUpButtonAction(event);
-                } catch (BadLoginException ex) {
-                    Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                handleSignUpButtonAction(event);
             }
         });
 
@@ -118,6 +114,18 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 Client client = ClientFactory.getClient();
                 user = client.loginUser(user);
 
+                
+                Parent root = null;
+                    try {
+                        root = FXMLLoader.load(getClass()
+                                .getResource("view/signOut.fxml"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    FXMLDocumentControllerSignOut controller = new FXMLDocumentControllerSignOut();
+                    //controller.setUser(user);
+                    //controller.initStage(root);
+            
                 //TRY TO CONNECT AND ALL THAT MOVIDA
             } catch (LoginException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -149,22 +157,11 @@ public class FXMLDocumentControllerLogin implements Initializable {
 
                 alert.showAndWait();
             }
-
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass()
-                        .getResource("view/signOut.fxml"));
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            FXMLDocumentControllerSignOut controller = new FXMLDocumentControllerSignOut();
-            controller.setUser(user);
-            controller.initStage(root);
-
+           
         }
         return 3;
     }
-
+    
   /**
    * This will try to open the sign up window.
    * @param event
@@ -172,7 +169,8 @@ public class FXMLDocumentControllerLogin implements Initializable {
     private void handleSignUpButtonAction(ActionEvent event) {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/FXMLDocumentSignUpController"));
+            root = FXMLLoader.load(getClass().getClassLoader()
+                    .getResource("view/FXMLDocumentSignUpController"));
             Stage stage = new Stage();
             stage.setTitle("Sign Up");
             stage.setScene(new Scene(root, 450, 450));
@@ -183,7 +181,6 @@ public class FXMLDocumentControllerLogin implements Initializable {
             e.getMessage();
         }
     }
-
     /**
      * Limits the login(username) textfield.
      *
@@ -201,7 +198,5 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 }
             }
         });
-
     }
-
 }

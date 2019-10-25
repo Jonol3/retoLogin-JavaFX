@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import retoLogin.User;
 
 /**
  * FXML Controller class
@@ -23,16 +24,24 @@ import javafx.scene.control.Label;
  * @author Jon
  */
 public class FXMLDocumentControllerSignOut implements Initializable {
-    String fullName = "Jon Calvo";
+    private User user;
     @FXML
     private Label lbGreeting;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lbGreeting.setText("Welcome, " + fullName);
+        lbGreeting.setText("Welcome, " + user.getFullName());
     }    
     
     @FXML
@@ -49,12 +58,12 @@ public class FXMLDocumentControllerSignOut implements Initializable {
     }
     @FXML
     public void handleButtonAbout(ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION, "Made by Jon, Unai and Daira.");
-        alert.setTitle("About");
-        alert.setHeaderText("Version 0.1");
+        Alert alert = new Alert(AlertType.INFORMATION, "Version 0.1\nMade by Jon, Unai and Daira.");
+        alert.setHeaderText("About");
         Optional<ButtonType> okButton = alert.showAndWait();
         if (okButton.isPresent() && okButton.get() == ButtonType.OK) {
             alert.close();
         }
     }
 }
+

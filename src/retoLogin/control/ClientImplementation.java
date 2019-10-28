@@ -188,8 +188,7 @@ public class ClientImplementation implements Client {
                     throw new AlreadyExistsException("User already exists.");
             }
 
-        } catch (IOException | ClassNotFoundException | AlreadyExistsException
-                | NoThreadAvailableException | RegisterException e) {
+        } catch (IOException | ClassNotFoundException e) {
             LOGGER.severe("Error: " + e.getMessage());
         } finally {
 

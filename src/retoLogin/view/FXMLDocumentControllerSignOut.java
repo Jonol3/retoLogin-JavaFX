@@ -70,19 +70,19 @@ public class FXMLDocumentControllerSignOut {
     }
     
     @FXML
-    public void handleButtonLogOut(ActionEvent event) {
+    private void handleButtonLogOut(ActionEvent event) {
         stage.close();
     }
     @FXML
-    public void handleButtonClose(ActionEvent event) {
+    private void handleButtonClose(ActionEvent event) {
         Platform.exit();
     }
     @FXML
-    public void handleButtonWorks(ActionEvent event) {
+    private void handleButtonWorks(ActionEvent event) {
         //TODO
     }
     @FXML
-    public void handleButtonAbout(ActionEvent event) {
+    private void handleButtonAbout(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION, "Made by Jon, Unai and Daira.");
         alert.setTitle("About");
         alert.setHeaderText("Version 0.1");

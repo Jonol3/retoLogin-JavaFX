@@ -130,59 +130,54 @@ public class FXMLDocumentControllerLogin {
                 Client client = ClientFactory.getClient();
                 user = client.loginUser(user);
 
-                FXMLLoader loader = new FXMLLoader(getClass()
-                        .getResource("signOut.fxml"));
                 Parent root = null;
-                try {
-                    root = (Parent) loader.load();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("signOut.fxml"));
+                root = (Parent) loader.load();
                 FXMLDocumentControllerSignOut viewController = loader.getController();
                 viewController.setUser(user);
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                viewController.setStage(stage);
+                Stage secondStage = new Stage();
+                secondStage.initModality(Modality.APPLICATION_MODAL);
+                viewController.setStage(secondStage);
                 viewController.initStage(root);
                    
-                //((Node)(event.getSource())).getScene().getWindow().
+                
                 txtFieldLogin.clear();
                 txtFieldPassword.clear();
             
-                //TRY TO CONNECT AND ALL THAT MOVIDA
+                
             } catch (BadLoginException e) {
-                Alert alert = new Alert(AlertType.INFORMATION);
+                Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Wrong error");
+                alert.setContentText("That user does not exist.");
 
                 alert.showAndWait();
             } catch (LoginException e) {
-                Alert alert = new Alert(AlertType.INFORMATION);
+                Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Busy username.");
+                alert.setContentText("Database error.");
 
                 alert.showAndWait();
             } catch (NoThreadAvailableException e) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Invalid User.");
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Busy server.");
+                alert.setContentText("The server is overloaded, try again later.");
 
                 alert.showAndWait();
             } catch (BadPasswordException e) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Empty username/password.");
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
                 alert.setHeaderText(null);
                 alert.setContentText("The password you have entered is not correct.");
 
                 alert.showAndWait();
             } catch(Exception e){
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Empty username/password.");
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("ERROR!!!!!");
+                alert.setContentText("An error has ocurred.");
 
                 alert.showAndWait();
             }
@@ -197,18 +192,22 @@ public class FXMLDocumentControllerLogin {
    */
     @FXML
     private void handleSignUpButtonAction(ActionEvent event) {
-        Parent root;
         try {
-            root = FXMLLoader.load(getClass().getClassLoader()
-                    .getResource("view/FXMLDocumentSignUpController"));
-            Stage stage = new Stage();
-            stage.setTitle("Sign Up");
-            stage.setScene(new Scene(root, 450, 450));
-            stage.show();
-            // Hides this current window (if this is what you want)
-            ((Node) (event.getSource())).getScene().getWindow().hide();
+            Parent root = null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("signUp.fxml"));
+            root = (Parent) loader.load();
+            FXMLDocumentControllerSignUp viewController = loader.getController();
+            Stage secondStage = new Stage();
+            secondStage.initModality(Modality.APPLICATION_MODAL);
+            viewController.setStage(secondStage);
+            viewController.initStage(root);
         } catch (IOException e) {
-            e.getMessage();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error has ocurred.");
+
+            alert.showAndWait();
         }
     }
     

@@ -198,6 +198,19 @@ public class FXMLDocumentControllerSignUp{
             user.setPassword(pfPassword.getText());
             try{
                 client.registerUser(user);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("signOut.fxml"));
+                Parent root = null;
+                try{
+                    root = (Parent) loader.load();
+                }catch(IOException ex){
+                    LOGGER.severe("Error: "+ex.getLocalizedMessage());
+                }
+                FXMLDocumentControllerSignOut viewController = loader.getController();
+                viewController.setUser(user);
+                stage.close();
+                Stage stage = new Stage();
+                viewController.setStage(stage);
+                viewController.initStage(root);
                 
             }catch(NoThreadAvailableException ex){
                 alert = new Alert(Alert.AlertType.ERROR,"The server is bussy right now, please try again in a few minutes");
@@ -214,20 +227,7 @@ public class FXMLDocumentControllerSignUp{
             }catch(Exception ex){
                 alert = new Alert(Alert.AlertType.ERROR,ex.getLocalizedMessage());
                 alert.show();
-                LOGGER.severe("Error: "+ex.getLocalizedMessage());
-            }finally{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("signOut.fxml"));
-                Parent root = null;
-                try{
-                    root = (Parent) loader.load();
-                }catch(IOException ex){
-                    LOGGER.severe("Error: "+ex.getLocalizedMessage());
-                }
-                FXMLDocumentControllerSignOut viewController = loader.getController();
-                viewController.setUser(user);
-                Stage stage = new Stage();
-                viewController.setStage(stage);
-                viewController.initStage(root);
+                LOGGER.severe("Error exception: "+ex.getLocalizedMessage());
             }
             
         }

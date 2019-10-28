@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="409.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="retoLogin.view.FXMLDocumentControllerSignOut">
+<BorderPane prefHeight="409.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="retoLogin.view.FXMLDocumentControllerSignOut">
    <top>
       <MenuBar id="mnTopMenu" fx:id="mnTopMenu" BorderPane.alignment="CENTER">
         <menus>
@@ -31,7 +31,7 @@
    <center>
       <VBox id="vboxPane" fx:id="vboxPane" alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label id="lbGreeting" fx:id="lbGreeting" alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="532.0" textAlignment="CENTER" wrapText="true">
+            <Label id="lbGreeting" fx:id="lbGreeting" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="532.0" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="28.0" />
                </font>

@@ -49,6 +49,7 @@ public class FXMLDocumentControllerSignOut {
      * Initializes the controller class.
      */
     public void initStage(Parent root) {
+        stage.setMaximized(true);
         stage.setOnShowing(this::handleWindowShowing);
         Scene scene = new Scene (root);
         stage.setScene(scene);
@@ -73,8 +74,9 @@ public class FXMLDocumentControllerSignOut {
     }
     @FXML
     public void handleButtonAbout(ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION, "Version 0.1\nMade by Jon, Unai and Daira.");
-        alert.setHeaderText("About");
+        Alert alert = new Alert(AlertType.INFORMATION, "Made by Jon, Unai and Daira.");
+        alert.setTitle("About");
+        alert.setHeaderText("Version 0.1");
         Optional<ButtonType> okButton = alert.showAndWait();
         if (okButton.isPresent() && okButton.get() == ButtonType.OK) {
             alert.close();

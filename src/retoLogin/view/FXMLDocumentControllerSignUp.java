@@ -5,20 +5,28 @@
  */
 package retoLogin.view;
 
+import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Logger;
-import javafx.application.Platform;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import retoLogin.User;
+import retoLogin.control.Client;
+import retoLogin.control.ClientFactory;
+import retoLogin.exceptions.*;
 
 
 
@@ -33,6 +41,19 @@ public class FXMLDocumentControllerSignUp{
     private Stage stage;
     
     private User user = new User();
+    
+    private Client client = ClientFactory.getClient();
+    /*
+    A-Z characters allowed
+    a-z characters allowed
+    0-9 numbers allowed
+    email may contain only dot '.', dash '-' and underscore '_'
+    rest of the characters are not allowed
+    */
+    private final String REGULAREXPRESSION = "^[A-Za-z0-9+_.-]+@(.+)$";
+    //Set the pattern with the expression we want
+    
+
     
     @FXML
     private TextField tfFullName;
@@ -65,6 +86,7 @@ public class FXMLDocumentControllerSignUp{
         stage.setTitle("Sign Up");
         stage.setResizable(false);
         stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::handleWindowClosing);
         
         btnRegister.setOnAction(this::handleBtnRegister);
         btnRedo.setOnAction(this::handleBtnRedo);
@@ -79,6 +101,16 @@ public class FXMLDocumentControllerSignUp{
         
         stage.show();
     }    
+    
+    public void handleWindowClosing(WindowEvent e){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Close");
+        alert.setHeaderText("Are you sure to cancel the registration?");
+        Optional<ButtonType> okButton = alert.showAndWait();
+        if (okButton.isPresent() && okButton.get() == ButtonType.CANCEL) {    
+            e.consume();
+        }
+    }
     
     public void textChanged(ObservableValue observable, String oldValue, String newValue){
         if(tfLogin.getText().trim().length()>50){
@@ -95,7 +127,7 @@ public class FXMLDocumentControllerSignUp{
                 tfLogin.getText().trim().isEmpty()||
                 pfConfirm.getText().trim().isEmpty()||
                 pfPassword.getText().trim().isEmpty()){
-            LOGGER.info("Some field is empty, the register button is going to be dissabled");
+            //LOGGER.info("Some field is empty, the register button is going to be disabled");
             btnRegister.setDisable(true);
         }else{
             btnRegister.setDisable(false);
@@ -124,7 +156,7 @@ public class FXMLDocumentControllerSignUp{
     }
     
     public void handleBtnCancel(ActionEvent e){
-        //TODO
+        stage.close();
     }
     
     public void handleBtnUndo(ActionEvent e){
@@ -148,13 +180,56 @@ public class FXMLDocumentControllerSignUp{
     
     public void handleBtnRegister(ActionEvent e){
         Alert alert;
+        Pattern pattern = Pattern.compile(REGULAREXPRESSION);
+        Matcher matcher = pattern.matcher(tfEmail.getText());
         //Alert if the password isn't equal
         if(!pfPassword.getText().equals(pfConfirm.getText())){
             LOGGER.warning("The password and the confirm password fields doesm't have the same information");
             alert = new Alert(Alert.AlertType.ERROR, "The passwords arent equal");
             alert.show();
+        }else if(!matcher.matches()){
+            LOGGER.warning("Incorrect expression on Email field");
+            alert = new Alert(Alert.AlertType.ERROR, "The email is not valid, please enter a new one");
+            alert.show();
         }else{
-            //TODO
+            user.setFullName(tfFullName.getText());
+            user.setEmail(tfEmail.getText());
+            user.setLogin(tfLogin.getText());
+            user.setPassword(pfPassword.getText());
+            try{
+                client.registerUser(user);
+                
+            }catch(NoThreadAvailableException ex){
+                alert = new Alert(Alert.AlertType.ERROR,"The server is bussy right now, please try again in a few minutes");
+                alert.show();
+                LOGGER.severe("Error: "+ex.getLocalizedMessage());
+            }catch(RegisterException ex){
+                alert = new Alert(Alert.AlertType.ERROR,"Error trying to register the new user");
+                alert.show();
+                LOGGER.severe("Error: "+ex.getLocalizedMessage());
+            }catch(AlreadyExistsException ex){
+                alert = new Alert(Alert.AlertType.ERROR,"The user with the login you are trying to register already exists");
+                alert.show();
+                LOGGER.severe("Error: "+ex.getLocalizedMessage());
+            }catch(Exception ex){
+                alert = new Alert(Alert.AlertType.ERROR,ex.getLocalizedMessage());
+                alert.show();
+                LOGGER.severe("Error: "+ex.getLocalizedMessage());
+            }finally{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("signOut.fxml"));
+                Parent root = null;
+                try{
+                    root = (Parent) loader.load();
+                }catch(IOException ex){
+                    LOGGER.severe("Error: "+ex.getLocalizedMessage());
+                }
+                FXMLDocumentControllerSignOut viewController = loader.getController();
+                viewController.setUser(user);
+                Stage stage = new Stage();
+                viewController.setStage(stage);
+                viewController.initStage(root);
+            }
+            
         }
     }
     

@@ -51,6 +51,7 @@ public class FXMLDocumentControllerSignOut {
     public void initStage(Parent root) {
         stage.setMaximized(true);
         stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::handleWindowClosing);
         Scene scene = new Scene (root);
         stage.setScene(scene);
         stage.show();
@@ -60,9 +61,19 @@ public class FXMLDocumentControllerSignOut {
         lbGreeting.setText("Welcome, " + user.getFullName());
     }
     
+    public void handleWindowClosing(WindowEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION, "");
+        alert.setTitle("Log out");
+        alert.setHeaderText("Log out and return to login?");
+        Optional<ButtonType> okButton = alert.showAndWait();
+        if (okButton.isPresent() && okButton.get() == ButtonType.CANCEL) {    
+            event.consume();
+        }
+    }
+    
     @FXML
     public void handleButtonLogOut(ActionEvent event) {
-        //TODO
+        stage.close();
     }
     @FXML
     public void handleButtonClose(ActionEvent event) {

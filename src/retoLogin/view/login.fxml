@@ -22,12 +22,12 @@ fx:controller="retoLogin.view.FXMLDocumentControllerLogin">
             <Font size="14.0" />
          </font>
       </PasswordField>
-      <Button id="btnSignUp" fx:id="btnSignUp" layoutX="155.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Sign Up">
+      <Button id="btnSignUp" fx:id="btnSignUp" layoutX="155.0" layoutY="289.0" mnemonicParsing="false" onAction="#handleSignUpButtonAction" prefHeight="25.0" prefWidth="100.0" text="Sign Up">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button id="btnLogin" fx:id="btnLogin" layoutX="335.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Login">
+      <Button id="btnLogin" fx:id="btnLogin" layoutX="335.0" layoutY="289.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="25.0" prefWidth="100.0" text="Login">
          <font>
             <Font size="14.0" />
          </font>

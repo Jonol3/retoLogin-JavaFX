@@ -5,13 +5,10 @@
  */
 package retoLogin.view;
 
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -49,7 +46,7 @@ public class FXMLDocumentControllerSignOut {
      * Initializes the controller class.
      */
     public void initStage(Parent root) {
-        stage.setMaximized(true);
+        stage.setTitle("Application");
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::handleWindowClosing);
         Scene scene = new Scene (root);
@@ -58,6 +55,7 @@ public class FXMLDocumentControllerSignOut {
     }    
     
     public void handleWindowShowing(WindowEvent event) {
+        stage.setMaximized(true);
         lbGreeting.setText("Welcome, " + user.getFullName());
     }
     

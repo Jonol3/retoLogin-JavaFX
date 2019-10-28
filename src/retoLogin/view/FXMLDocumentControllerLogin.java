@@ -6,8 +6,7 @@
 package retoLogin.view;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -15,19 +14,20 @@ import java.util.regex.Pattern;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import retoLogin.User;
 import retoLogin.control.Client;
 import retoLogin.control.ClientFactory;
@@ -36,10 +36,11 @@ import retoLogin.exceptions.*;
 /**
  * FXML Controller class
  *
- * @author Daira Eguzkiza
+ * @author Daira Eguzkiza, Jon Calvo Gaminde
  */
-public class FXMLDocumentControllerLogin implements Initializable {
-
+public class FXMLDocumentControllerLogin {
+    
+    
     @FXML
     private Button btnLogin;
     @FXML
@@ -48,32 +49,44 @@ public class FXMLDocumentControllerLogin implements Initializable {
     private TextField txtFieldLogin;
     @FXML
     private PasswordField txtFieldPassword;
+    
+    private Stage stage;
 
     User user = new User();
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        btnLogin.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                handleLoginButtonAction(txtFieldLogin.getText(),
-                        txtFieldPassword.getText(), event);
-            }
-        });
-
-        btnSignUp.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                handleSignUpButtonAction(event);
-            }
-        });
-
+    
+    
+    public void initStage(Parent root) {
+        stage.setTitle("Login");
+        stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::handleWindowClosing);
+        Scene scene = new Scene (root);
+        stage.setScene(scene);
+        stage.show();
+        
+    }
+    
+    public void handleWindowShowing(WindowEvent event) {
+        stage.setResizable(false);
         addTextLimiter(txtFieldLogin, 30);
         addTextLimiter(txtFieldPassword, 50);
+    }
+    
+    public void handleWindowClosing(WindowEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION, "");
+        alert.setTitle("Close");
+        alert.setHeaderText("Are you sure that you want to close the application?");
+        Optional<ButtonType> okButton = alert.showAndWait();
+        if (okButton.isPresent() && okButton.get() == ButtonType.CANCEL) {    
+            event.consume();
+        }
     }
 
     /**
@@ -84,7 +97,10 @@ public class FXMLDocumentControllerLogin implements Initializable {
      * @param passwd The password for that user.
      * @return
      */
-    public int handleLoginButtonAction(String login, String passwd, ActionEvent event) {
+    @FXML
+    private int handleLoginButtonAction(ActionEvent event) {
+        String login = txtFieldLogin.getText();
+        String passwd = txtFieldPassword.getText();
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(login);
         boolean specialChars = m.find();
@@ -125,10 +141,13 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 FXMLDocumentControllerSignOut viewController = loader.getController();
                 viewController.setUser(user);
                 Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
                 viewController.setStage(stage);
                 viewController.initStage(root);
                    
-                ((Node)(event.getSource())).getScene().getWindow().hide();
+                //((Node)(event.getSource())).getScene().getWindow().
+                txtFieldLogin.clear();
+                txtFieldPassword.clear();
             
                 //TRY TO CONNECT AND ALL THAT MOVIDA
             } catch (BadLoginException e) {
@@ -138,7 +157,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 alert.setContentText("Wrong error");
 
                 alert.showAndWait();
-            }catch (LoginException e) {
+            } catch (LoginException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
@@ -159,7 +178,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 alert.setContentText("The password you have entered is not correct.");
 
                 alert.showAndWait();
-            }catch(Exception e){
+            } catch(Exception e){
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Empty username/password.");
                 alert.setHeaderText(null);
@@ -176,6 +195,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
    * This will try to open the sign up window.
    * @param event
    */
+    @FXML
     private void handleSignUpButtonAction(ActionEvent event) {
         Parent root;
         try {
@@ -191,6 +211,9 @@ public class FXMLDocumentControllerLogin implements Initializable {
             e.getMessage();
         }
     }
+    
+    
+    
     /**
      * Limits the login(username) textfield.
      *

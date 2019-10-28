@@ -6,6 +6,8 @@
 package retoLogin.view;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -21,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import retoLogin.User;
@@ -196,6 +199,10 @@ public class FXMLDocumentControllerSignUp{
             user.setEmail(tfEmail.getText());
             user.setLogin(tfLogin.getText());
             user.setPassword(pfPassword.getText());
+            user.setLastAccess(Timestamp.from(Instant.now()));
+            user.setLastPasswordChange(Timestamp.from(Instant.now()));
+            user.setPrivilege(1);
+            user.setStatus(1);
             try{
                 client.registerUser(user);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("signOut.fxml"));
@@ -209,6 +216,7 @@ public class FXMLDocumentControllerSignUp{
                 viewController.setUser(user);
                 stage.close();
                 Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
                 viewController.setStage(stage);
                 viewController.initStage(root);
                 

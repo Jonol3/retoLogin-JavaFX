@@ -58,9 +58,7 @@ public class FXMLDocumentControllerLogin {
         this.stage = stage;
     }
 
-    /**
-     * Initializes the controller class.
-     */
+    
     
     
     public void initStage(Parent root) {

@@ -61,7 +61,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 handleLoginButtonAction(txtFieldLogin.getText(),
-                        txtFieldPassword.getText());
+                        txtFieldPassword.getText(), event);
             }
         });
 
@@ -84,7 +84,7 @@ public class FXMLDocumentControllerLogin implements Initializable {
      * @param passwd The password for that user.
      * @return
      */
-    public int handleLoginButtonAction(String login, String passwd) {
+    public int handleLoginButtonAction(String login, String passwd, ActionEvent event) {
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(login);
         boolean specialChars = m.find();
@@ -114,39 +114,42 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 Client client = ClientFactory.getClient();
                 user = client.loginUser(user);
 
-                
+                FXMLLoader loader = new FXMLLoader(getClass()
+                        .getResource("signOut.fxml"));
                 Parent root = null;
-                    try {
-                        root = FXMLLoader.load(getClass()
-                                .getResource("view/signOut.fxml"));
-                    } catch (IOException ex) {
-                        Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    FXMLDocumentControllerSignOut controller = new FXMLDocumentControllerSignOut();
-                    //controller.setUser(user);
-                    //controller.initStage(root);
+                try {
+                    root = (Parent) loader.load();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentControllerLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                FXMLDocumentControllerSignOut viewController = loader.getController();
+                viewController.setUser(user);
+                Stage stage = new Stage();
+                viewController.setStage(stage);
+                viewController.initStage(root);
+                   
+                ((Node)(event.getSource())).getScene().getWindow().hide();
             
                 //TRY TO CONNECT AND ALL THAT MOVIDA
-            } catch (LoginException e) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Unexpected error");
-
-                alert.showAndWait();
             } catch (BadLoginException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Busy server. Please wait.");
+                alert.setContentText("Wrong error");
 
                 alert.showAndWait();
+            }catch (LoginException e) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Busy username.");
 
+                alert.showAndWait();
             } catch (NoThreadAvailableException e) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Invalid User.");
                 alert.setHeaderText(null);
-                alert.setContentText("The user you have entered is not correct.");
+                alert.setContentText("Busy server.");
 
                 alert.showAndWait();
             } catch (BadPasswordException e) {
@@ -154,6 +157,13 @@ public class FXMLDocumentControllerLogin implements Initializable {
                 alert.setTitle("Empty username/password.");
                 alert.setHeaderText(null);
                 alert.setContentText("The password you have entered is not correct.");
+
+                alert.showAndWait();
+            }catch(Exception e){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Empty username/password.");
+                alert.setHeaderText(null);
+                alert.setContentText("ERROR!!!!!");
 
                 alert.showAndWait();
             }

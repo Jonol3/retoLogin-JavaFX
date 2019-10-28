@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="retoLogin.view.FXMLDocumentControllerSignOut">
-   <center>
-      <Pane id="pnMainPane" fx:id="pnMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-         <children>
-            <Label id="lbGreeting" fx:id="lbGreeting" layoutX="171.0" layoutY="109.0" text="Welcome, [fullName]">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Label>
-            <Button id="btLogOut" fx:id="btLogOut" layoutX="256.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleButtonLogOut" text="Log Out">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
-   </center>
+<BorderPane prefHeight="409.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="retoLogin.view.FXMLDocumentControllerSignOut">
    <top>
       <MenuBar id="mnTopMenu" fx:id="mnTopMenu" BorderPane.alignment="CENTER">
         <menus>
@@ -44,4 +28,26 @@
         </menus>
       </MenuBar>
    </top>
+   <center>
+      <VBox id="vboxPane" fx:id="vboxPane" alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label id="lbGreeting" fx:id="lbGreeting" alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="532.0" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </Label>
+            <Button id="btLogOut" fx:id="btLogOut" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonLogOut" prefHeight="29.0" prefWidth="142.0" text="Log Out" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

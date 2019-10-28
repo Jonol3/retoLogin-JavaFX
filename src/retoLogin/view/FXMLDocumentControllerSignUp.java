@@ -154,7 +154,7 @@ public class FXMLDocumentControllerSignUp{
             alert = new Alert(Alert.AlertType.ERROR, "The passwords arent equal");
             alert.show();
         }else{
-            
+            //TODO
         }
     }
     

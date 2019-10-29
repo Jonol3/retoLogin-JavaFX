@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import retoLogin.Message;
 import retoLogin.User;
@@ -21,47 +21,14 @@ import retoLogin.exceptions.*;
  */
 public class ClientImplementation implements Client {
 
-    private final int PUERTO = 5001;
-    private final String IP = "192.168.21.82";
     private static final Logger LOGGER = Logger
             .getLogger("retoLogin.control.ClientImplementation");
+    ResourceBundle properties = ResourceBundle.getBundle("retoLogin.clientConnection");
+    private final String IP = properties.getString("serverIp");
+    private final int PUERTO = Integer.parseInt(properties.getString("serverPort"));
+    
 
-    public static void main(String[] args) {
-        ClientImplementation c = new ClientImplementation();
-
-        User u = new User();
-        u.setLogin("Jonzdfgzdfg");
-        u.setPassword("abc*1234");
-
-        User newUser = new User();
-        newUser.setEmail("alguien2@gmail.com");
-        newUser.setFullName("Tengo Un nombre muy largo larguísimo González Aaanabavaca");
-        newUser.setLogin("largo");
-        newUser.setPassword("abcd*1234");
-        newUser.setPrivilege(1);
-        newUser.setStatus(1);
-
-        //PRUEBA CON LOGIN AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA          
-        /*
-        try {
-            c.loginUser(u);
-        } catch (LoginException | BadLoginException | BadPasswordException | 
-                NoThreadAvailableException ex) {
-            Logger.getLogger(ClientImplementation.class.getName())
-                    .log(Level.SEVERE, null, ex);
-        }*/
-        //FIN PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        //PRUEBA CON REGISTRO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        try {
-            c.registerUser(newUser);
-        } catch (RegisterException | AlreadyExistsException
-                | NoThreadAvailableException ex) {
-            Logger.getLogger(ClientImplementation.class.getName())
-                    .log(Level.SEVERE, null, ex);
-        }
-        // FIN PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-    }
+    
 
     /**
      * Method that connects with a server using a socket and returns a message
@@ -89,7 +56,7 @@ public class ClientImplementation implements Client {
         ObjectOutputStream salida = null;
         try {
             cliente = new Socket(IP, PUERTO);
-            LOGGER.info("Conexión realizada con el servidor");
+            LOGGER.info("Connected with the server.");
 
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
@@ -99,7 +66,6 @@ public class ClientImplementation implements Client {
             message.setType(1);
             salida.writeObject(message);
             LOGGER.info("Enviado");
-            //HACERLE ESPERAR Y TAL
             Message m = (Message) entrada.readObject();
             LOGGER.info("Objeto recibido");
             LOGGER.info("respuesta: " + m.getType());
@@ -121,7 +87,8 @@ public class ClientImplementation implements Client {
                             + "correct.");
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new BadLoginException("Error trying to log in.");
+            LOGGER.severe("Error: " + e.getMessage());
+            throw new LoginException("Error trying to log in.");
         } finally {
             try {
                 if (cliente != null) {
@@ -190,6 +157,7 @@ public class ClientImplementation implements Client {
 
         } catch (IOException | ClassNotFoundException e) {
             LOGGER.severe("Error: " + e.getMessage());
+            throw new RegisterException("Error trying to register.");
         } finally {
 
             try {

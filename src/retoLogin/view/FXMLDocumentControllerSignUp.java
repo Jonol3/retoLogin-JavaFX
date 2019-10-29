@@ -187,12 +187,16 @@ public class FXMLDocumentControllerSignUp{
         Matcher matcher = pattern.matcher(tfEmail.getText());
         //Alert if the password isn't equal
         if(!pfPassword.getText().equals(pfConfirm.getText())){
-            LOGGER.warning("The password and the confirm password fields doesm't have the same information");
-            alert = new Alert(Alert.AlertType.ERROR, "The passwords arent equal");
+            LOGGER.warning("The password and the confirm password fields doesn't have the same information");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The passwords are not equal.");
             alert.show();
         }else if(!matcher.matches()){
             LOGGER.warning("Incorrect expression on Email field");
-            alert = new Alert(Alert.AlertType.ERROR, "The email is not valid, please enter a new one");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The email is not valid, please enter a new one.");
             alert.show();
         }else{
             user.setFullName(tfFullName.getText());
@@ -221,19 +225,27 @@ public class FXMLDocumentControllerSignUp{
                 viewController.initStage(root);
                 
             }catch(NoThreadAvailableException ex){
-                alert = new Alert(Alert.AlertType.ERROR,"The server is bussy right now, please try again in a few minutes");
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("The server is busy right now, please try again in a few minutes.");
                 alert.show();
                 LOGGER.severe("Error: "+ex.getLocalizedMessage());
             }catch(RegisterException ex){
-                alert = new Alert(Alert.AlertType.ERROR,"Error trying to register the new user");
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Database error.");
                 alert.show();
                 LOGGER.severe("Error: "+ex.getLocalizedMessage());
             }catch(AlreadyExistsException ex){
-                alert = new Alert(Alert.AlertType.ERROR,"The user with the login you are trying to register already exists");
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("The user with the login you are trying to register already exists");
                 alert.show();
                 LOGGER.severe("Error: "+ex.getLocalizedMessage());
             }catch(Exception ex){
-                alert = new Alert(Alert.AlertType.ERROR,ex.getLocalizedMessage());
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("An error has ocurred.");
                 alert.show();
                 LOGGER.severe("Error exception: "+ex.getLocalizedMessage());
             }

@@ -43,8 +43,6 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
     //VERIFY THAT XpANE IS VISIBLE()
     //Assert.assertNotNull();
     
-    
-    
     @Test
     public void testLoginButtonIfOk() {
         clickOn("#txtFieldLogin");

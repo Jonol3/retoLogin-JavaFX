@@ -6,10 +6,14 @@
 package retoLogin.control;
 
 /**
- *
+ * The factory of the Client.
  * @author Daira Eguzkiza
  */
 public class ClientFactory {
+    /**
+     * Creates a new Client Object and returns it.
+     * @return The new Client object.
+     */
     public static Client getClient(){
         return new ClientImplementation();
     }

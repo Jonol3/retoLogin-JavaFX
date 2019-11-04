@@ -106,7 +106,7 @@ public class FXMLDocumentControllerLogin {
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(login);
         boolean specialChars = m.find();
-        //The limiter should do its job, but this double checks
+        //The limiter should do its job, but this code double checks
         if (login.length() > 30 || specialChars) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Invalid username.");
@@ -129,7 +129,7 @@ public class FXMLDocumentControllerLogin {
                 Client client = ClientFactory.getClient();
                 user = client.loginUser(user);
 
-                Parent root = null;
+                Parent root;
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("signOut.fxml"));
                 root = (Parent) loader.load();
                 FXMLDocumentControllerSignOut viewController = loader.getController();

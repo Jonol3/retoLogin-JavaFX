@@ -8,6 +8,7 @@ package retoLogin.control;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -36,8 +37,8 @@ public class ClientImplementation implements Client {
         ObjectInputStream entrada = null;
         ObjectOutputStream salida = null;
         try {
-            cliente = new Socket(IP, PUERTO);
-            cliente.setSoTimeout(5000);
+            cliente = new Socket();
+            cliente.connect(new InetSocketAddress(IP,PUERTO), 2000);
             LOGGER.info("Connected with the server.");
 
             salida = new ObjectOutputStream(cliente.getOutputStream());
@@ -100,8 +101,8 @@ public class ClientImplementation implements Client {
         ObjectInputStream entrada = null;
         ObjectOutputStream salida = null;
         try {
-            cliente = new Socket(IP, PUERTO);
-            cliente.setSoTimeout(5000);
+            cliente = new Socket();
+                cliente.connect(new InetSocketAddress(IP,PUERTO), 2000);
             LOGGER.info("Conexión realizada con servidor");
 
             salida = new ObjectOutputStream(cliente.getOutputStream());

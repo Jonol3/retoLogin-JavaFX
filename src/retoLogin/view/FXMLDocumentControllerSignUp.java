@@ -96,10 +96,15 @@ public class FXMLDocumentControllerSignUp{
         btnUndo.setOnAction(this::handleBtnUndo);
         btnCancel.setOnAction(this::handleBtnCancel);
         tfEmail.textProperty().addListener(this::textChanged);
+        tfEmail.setPromptText("sarah.smith@email.com");
         tfFullName.textProperty().addListener(this::textChanged);
+        tfFullName.setPromptText("Sarah Smith Summers");
         tfLogin.textProperty().addListener(this::textChanged);
+        tfLogin.setPromptText("Sarah24Smith");
         pfPassword.textProperty().addListener(this::textChanged);
+        pfPassword.setPromptText("Password");
         pfConfirm.textProperty().addListener(this::textChanged);
+        pfConfirm.setPromptText("Repeat the password");
         
         
         stage.show();

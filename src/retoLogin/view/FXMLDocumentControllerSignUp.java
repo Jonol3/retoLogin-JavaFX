@@ -31,7 +31,7 @@ import retoLogin.exceptions.*;
 
 
 /**
- * FXML Controller class
+ * FXML Controller class for the Sign Up window
  *
  * @author Unai Pérez Sánchez
  */
@@ -74,7 +74,7 @@ public class FXMLDocumentControllerSignUp{
     @FXML
     private Button btnRegister;
     /**
-     * Initializes the controller class.
+     * Initializes the stage
      */
     public void initStage(Parent root) {
         LOGGER.info("Initializing Sign Up stage");
@@ -101,7 +101,10 @@ public class FXMLDocumentControllerSignUp{
         
         stage.show();
     }    
-    
+    /**
+     * This method handle the actions when the user click on close button of the window
+     * @param e Object of type WindowEvent
+     */
     public void handleWindowClosing(WindowEvent e){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Close");
@@ -111,7 +114,12 @@ public class FXMLDocumentControllerSignUp{
             e.consume();
         }
     }
-    
+    /**
+     * This method checks when text changed on the text fields or password fields
+     * @param observable Object of type ObservableValue
+     * @param oldValue Object of type String
+     * @param newValue Object of type String
+     */
     public void textChanged(ObservableValue observable, String oldValue, String newValue){
         if(tfLogin.getText().trim().length()>50){
             LOGGER.warning("The Login field is too long");
@@ -133,7 +141,10 @@ public class FXMLDocumentControllerSignUp{
             btnRegister.setDisable(false);
         }
     }
-    
+    /**
+     * This method prepares the window before showing it to the user
+     * @param e Object of type WindowEvent
+     */
     public void handleWindowShowing(WindowEvent e){
         //Register button will be disabled
         btnRegister.setDisable(true);
@@ -154,11 +165,17 @@ public class FXMLDocumentControllerSignUp{
         btnRegister.setMnemonicParsing(true);
         btnRegister.setText("_Sign Up");
     }
-    
+    /**
+     * This method handles the action of the cancel button
+     * @param e Object of type ActionEvent
+     */
     public void handleBtnCancel(ActionEvent e){
         stage.close();
     }
-    
+    /**
+     * This method handles the action of the undo button
+     * @param e Object of type ActionEvent
+     */
     public void handleBtnUndo(ActionEvent e){
         user.setFullName(tfFullName.getText());
         user.setEmail(tfEmail.getText());
@@ -170,14 +187,20 @@ public class FXMLDocumentControllerSignUp{
         pfConfirm.setText("");
         btnRedo.setDisable(false);
     }
-    
+    /**
+     * This method handles the actions of the redo button
+     * @param e Object of type ActionEvent
+     */
     public void handleBtnRedo(ActionEvent e){
         tfFullName.setText(user.getFullName());
         tfEmail.setText(user.getEmail());
         tfLogin.setText(user.getLogin());
         btnRedo.setDisable(true);
     }
-    
+    /**
+     * This method handles the actions of the register button (Sign Up)
+     * @param e Object of type ActionEvent
+     */
     public void handleBtnRegister(ActionEvent e){
         Alert alert;
         Pattern pattern = Pattern.compile(REGULAREXPRESSION);
@@ -232,11 +255,17 @@ public class FXMLDocumentControllerSignUp{
             
         }
     }
-    
+    /**
+     * Setter for the stage
+     * @param stage Object of type Stage
+     */
     public void setStage(Stage stage){
         this.stage=stage;
     }
-    
+    /**
+     * Getter for the stage
+     * @return Object of type Stage
+     */
     public Stage getStage(){
         return stage;
     }

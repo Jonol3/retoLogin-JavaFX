@@ -56,6 +56,7 @@ public class ClientImplementation implements Client {
         ObjectOutputStream salida = null;
         try {
             cliente = new Socket(IP, PUERTO);
+            cliente.setSoTimeout(5000);
             LOGGER.info("Connected with the server.");
 
             salida = new ObjectOutputStream(cliente.getOutputStream());
@@ -87,6 +88,7 @@ public class ClientImplementation implements Client {
                             + "correct.");
             }
         } catch (IOException | ClassNotFoundException e) {
+            //SocketTimeoutException and SocketException are caught by the IOException
             LOGGER.severe("Error: " + e.getMessage());
             throw new LoginException("Error trying to log in.");
         } finally {
@@ -132,6 +134,7 @@ public class ClientImplementation implements Client {
         ObjectOutputStream salida = null;
         try {
             cliente = new Socket(IP, PUERTO);
+            cliente.setSoTimeout(5000);
             LOGGER.info("Conexión realizada con servidor");
 
             salida = new ObjectOutputStream(cliente.getOutputStream());
@@ -156,6 +159,7 @@ public class ClientImplementation implements Client {
             }
 
         } catch (IOException | ClassNotFoundException e) {
+            //SocketTimeoutException and SocketException are caught by the IOException
             LOGGER.severe("Error: " + e.getMessage());
             throw new RegisterException("Error trying to register.");
         } finally {

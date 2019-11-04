@@ -7,8 +7,6 @@ package retoLogin.view;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.beans.value.ChangeListener;
@@ -16,7 +14,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -34,8 +31,7 @@ import retoLogin.control.ClientFactory;
 import retoLogin.exceptions.*;
 
 /**
- * FXML Controller class
- *
+ * FXML Controller class for the Login window
  * @author Daira Eguzkiza, Jon Calvo Gaminde
  */
 public class FXMLDocumentControllerLogin {
@@ -60,7 +56,10 @@ public class FXMLDocumentControllerLogin {
 
     
     
-    
+    /**
+     * Initializes the stage
+     * @param root The Parent of the scene
+     */
     public void initStage(Parent root) {
         stage.setTitle("Login");
         stage.setOnShowing(this::handleWindowShowing);
@@ -71,12 +70,20 @@ public class FXMLDocumentControllerLogin {
         
     }
     
+    /**
+     * This method handle the actions when the window shows
+     * @param event Object of type WindowEvent
+     */
     public void handleWindowShowing(WindowEvent event) {
         stage.setResizable(false);
         addTextLimiter(txtFieldLogin, 30);
         addTextLimiter(txtFieldPassword, 50);
     }
     
+    /**
+     * This method handle the actions when the user click the close button of the window
+     * @param event Object of type WindowEvent
+     */
     public void handleWindowClosing(WindowEvent event) {
         Alert alert = new Alert(AlertType.CONFIRMATION, "");
         alert.setTitle("Close");
@@ -90,20 +97,16 @@ public class FXMLDocumentControllerLogin {
     /**
      * This will try to log in the user. Controlls wether the data entered is
      * valid or not.
-     *
-     * @param login The username.
-     * @param passwd The password for that user.
-     * @return
+     * @param event The clicking event
      */
     @FXML
-    private int handleLoginButtonAction(ActionEvent event) {
+    private void handleLoginButtonAction(ActionEvent event) {
         String login = txtFieldLogin.getText();
         String passwd = txtFieldPassword.getText();
         Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(login);
         boolean specialChars = m.find();
-        //THE LIMITER SHOULD DO ITS JOB, BUT STILL I AM CHECKING THE LENGTH 
-        //JUST IN CASE...
+        //The limiter should do its job, but this double checks
         if (login.length() > 30 || specialChars) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Invalid username.");
@@ -111,7 +114,6 @@ public class FXMLDocumentControllerLogin {
             alert.setContentText("You must enter a valid username.");
 
             alert.showAndWait();
-            return 1;
         } else if (login.length() < 1 || passwd.length() < 1) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Empty username/password.");
@@ -119,7 +121,6 @@ public class FXMLDocumentControllerLogin {
             alert.setContentText("You must enter a username and a password.");
 
             alert.showAndWait();
-            return 2;
         } else {
             try {
                 user.setLogin(login);
@@ -154,7 +155,7 @@ public class FXMLDocumentControllerLogin {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Database error.");
+                alert.setContentText("Unexpected error happened.");
 
                 alert.showAndWait();
             } catch (NoThreadAvailableException e) {
@@ -181,12 +182,11 @@ public class FXMLDocumentControllerLogin {
             }
            
         }
-        return 3;
     }
     
   /**
    * This will try to open the sign up window.
-   * @param event
+   * @param event The clicking event
    */
     @FXML
     private void handleSignUpButtonAction(ActionEvent event) {

@@ -35,7 +35,6 @@ import retoLogin.exceptions.*;
 
 /**
  * FXML Controller class for the Sign Up window
- *
  * @author Unai Pérez Sánchez
  */
 public class FXMLDocumentControllerSignUp{
@@ -78,6 +77,7 @@ public class FXMLDocumentControllerSignUp{
     private Button btnRegister;
     /**
      * Initializes the stage
+     * @param root The Parent of the scene
      */
     public void initStage(Parent root) {
         LOGGER.info("Initializing Sign Up stage");
@@ -138,7 +138,6 @@ public class FXMLDocumentControllerSignUp{
                 tfLogin.getText().trim().isEmpty()||
                 pfConfirm.getText().trim().isEmpty()||
                 pfPassword.getText().trim().isEmpty()){
-            //LOGGER.info("Some field is empty, the register button is going to be disabled");
             btnRegister.setDisable(true);
         }else{
             btnRegister.setDisable(false);

@@ -78,6 +78,11 @@ public class FXMLDocumentControllerLogin {
         stage.setResizable(false);
         addTextLimiter(txtFieldLogin, 30);
         addTextLimiter(txtFieldPassword, 50);
+        
+        btnLogin.setMnemonicParsing(true);
+        btnLogin.setText("_Log in");
+        btnSignUp.setMnemonicParsing(true);
+        btnSignUp.setText("_Sign Up");
     }
     
     /**

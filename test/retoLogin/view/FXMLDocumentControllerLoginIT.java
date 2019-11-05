@@ -5,11 +5,15 @@
  */
 package retoLogin.view;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
@@ -22,7 +26,7 @@ import retoLogin.Application;
 public class FXMLDocumentControllerLoginIT extends ApplicationTest{
     private static final String INVALIDUSERNAME="user$name·?%";
     private static final String VALIDUSERNAME="username1234";
-    private static final String LONGUSERNAME="isauhdfiuasfdbiadfbdfiugadifdf"
+    private static final String LONGUSERNAME="dkufbiuapbdfiabfvibfvivfirfbie"
             + "aaasdiufbaoisdbiaoslbdfaisdfaa"
             + "duhfaildfhgioadgbiladfbviadbvi"
             + "dkhjbfliadfbipadbgadfguabgalid"
@@ -37,11 +41,13 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
     private static final String PASSWORDMATCH="abcd*1234";
     
     
+ 
     @Override public void start(Stage stage) throws Exception {
       new Application().start(stage);
     }
     //VERIFY THAT XpANE IS VISIBLE()
     //Assert.assertNotNull();
+    
     
     @Test
     public void testLoginButtonIfOk() {
@@ -61,6 +67,7 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
         write("");
         clickOn("#btnLogin");
         verifyThat("You must enter a username and a password.", isVisible());
+           
     }
     
     @Test
@@ -73,7 +80,7 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
         verifyThat("That user does not exist.", isVisible());
     }
     
-    @Test
+    //@Test
     public void testLoginButtonWithoutUser() {
         clickOn("#txtFieldLogin");
         write("");

@@ -210,6 +210,9 @@ public class FXMLDocumentControllerSignUp{
         Alert alert;
         Pattern pattern = Pattern.compile(REGULAREXPRESSION);
         Matcher matcher = pattern.matcher(tfEmail.getText());
+        Pattern patt = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher match = patt.matcher(tfLogin.getText());
+        boolean specialChars = match.find();
         //Alert if the password isn't equal
         if(!pfPassword.getText().equals(pfConfirm.getText())){
             LOGGER.warning("The password and the confirm password fields doesm't have the same information");
@@ -218,6 +221,10 @@ public class FXMLDocumentControllerSignUp{
         }else if(!matcher.matches()){
             LOGGER.warning("Incorrect expression on Email field");
             alert = new Alert(Alert.AlertType.ERROR, "The email is not valid, please enter a new one");
+            alert.show();
+        }else if(specialChars){
+            LOGGER.warning("Incorrent expression on Login field");
+            alert = new Alert(Alert.AlertType.ERROR, "The login is not valid, please enter a new one");
             alert.show();
         }else{
             user.setFullName(tfFullName.getText());

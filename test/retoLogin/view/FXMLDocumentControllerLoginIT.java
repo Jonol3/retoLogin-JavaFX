@@ -150,6 +150,19 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
         clickOn("Aceptar");
     }
     
+    @Test
+    public void testFLoginButtonWithMastodontePassword() {
+        clickOn("#txtFieldLogin");
+        write(NONEXISTENTUSER);
+        clickOn("#txtFieldPassword");
+        write(LONGUSERNAME);
+        clickOn("#btnLogin");
+        if("#txtFieldPassword".length()>200){
+           verifyThat("The pass", isVisible());
+        }
+        clickOn("Aceptar");
+    }
+    
     /**
      * Tests if when you click on the sign up button, another window is opened
      * showing the sign up options.

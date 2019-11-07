@@ -129,21 +129,42 @@ public class FXMLDocumentControllerSignUp{
      * @param newValue Object of type String
      */
     public void textChanged(ObservableValue observable, String oldValue, String newValue){
-        btnRegister.setDisable(true);
+        Alert alert;
         if(tfLogin.getText().trim().length()>50){
             LOGGER.warning("The Login field is too long");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The Login field is too long");
+            alert.showAndWait();
+            btnRegister.setDisable(true);
         }else if(tfFullName.getText().trim().length()>85){
             LOGGER.warning("The Full Name field is too long");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The Full Name field is too long");
+            alert.showAndWait();
+            btnRegister.setDisable(true);
         }else if(tfEmail.getText().trim().length()>80){
             LOGGER.warning("The Email field is too long");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The Email field is too long");
+            alert.showAndWait();
+            btnRegister.setDisable(true);
         }else if(pfPassword.getText().trim().length()>200 ||
                 pfConfirm.getText().trim().length()>200){
             LOGGER.warning("The Password field is too long");
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The Password field is too long");
+            alert.showAndWait();
+            btnRegister.setDisable(true);
         }else if(tfEmail.getText().trim().isEmpty()||
                 tfFullName.getText().trim().isEmpty()||
                 tfLogin.getText().trim().isEmpty()||
                 pfConfirm.getText().trim().isEmpty()||
                 pfPassword.getText().trim().isEmpty()){
+            btnRegister.setDisable(true);
         }else{
             btnRegister.setDisable(false);
         }

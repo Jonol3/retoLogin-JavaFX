@@ -15,9 +15,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import retoLogin.User;
@@ -31,6 +31,8 @@ public class FXMLDocumentControllerSignOut {
     private Stage stage;
     @FXML
     private Label lbGreeting;
+    @FXML
+    private Button btLogOut;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -64,6 +66,9 @@ public class FXMLDocumentControllerSignOut {
     public void handleWindowShowing(WindowEvent event) {
         stage.setMaximized(true);
         lbGreeting.setText("Welcome, " + user.getFullName());
+        
+        btLogOut.setMnemonicParsing(true);
+        btLogOut.setText("_Log out");
     }
     /**
      * This method handle the actions when the user click the close button of the window

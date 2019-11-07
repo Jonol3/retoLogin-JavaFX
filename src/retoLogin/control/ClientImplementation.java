@@ -44,27 +44,26 @@ public class ClientImplementation implements Client {
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
-            LOGGER.info("Mando el user");
+            LOGGER.info("Sending message...");
             message.setUser(user);
             message.setType(1);
             salida.writeObject(message);
-            LOGGER.info("Enviado");
+            LOGGER.info("Message sent.");
             Message m = (Message) entrada.readObject();
-            LOGGER.info("Objeto recibido");
-            LOGGER.info("respuesta: " + m.getType());
+            LOGGER.info("Answer received.");
 
             switch (m.getType()) {
                 case 0:
                     user = m.getUser();
-                    LOGGER.info(user.getFullName() + " "
-                            + user.getEmail());
+                    LOGGER.info("Login successful.");
                     return user;
                 case 1:
                     throw new LoginException("Error trying to log in.");
                 case 2:
                     throw new NoThreadAvailableException("Server is busy.");
                 case 3:
-                    throw new BadLoginException("Bad login.");
+                    throw new BadLoginException("The login is not "
+                            + "correct.");
                 case 4:
                     throw new BadPasswordException("The password is not "
                             + "correct.");
@@ -102,21 +101,23 @@ public class ClientImplementation implements Client {
         ObjectOutputStream salida = null;
         try {
             cliente = new Socket();
-                cliente.connect(new InetSocketAddress(IP,PUERTO), 2000);
-            LOGGER.info("Conexión realizada con servidor");
+            cliente.connect(new InetSocketAddress(IP,PUERTO), 2000);
+            LOGGER.info("Connected with the server.");
 
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
+            LOGGER.info("Sending message...");
             message.setUser(user);
             message.setType(2);
             salida.writeObject(message);
+            LOGGER.info("Message sent.");
 
             Message m = (Message) entrada.readObject();
-            LOGGER.info("Registrado bien: " + "RECIBIDO EL NÚMERO" + m.getType());
+            LOGGER.info("Answer received.");
             switch (m.getType()) {
                 case 0:
-                    LOGGER.info("TODO BIEN");
+                    LOGGER.info("Register successful.");
                     return user;
                 case 1:
                     throw new RegisterException("Error trying to log in.");

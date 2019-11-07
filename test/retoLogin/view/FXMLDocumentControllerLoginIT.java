@@ -42,18 +42,7 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
       new Application().start(stage);
     }
     
-    /** 
-     * Tests if everything goes right when you enter valid parameters.
-     */
-    @Test
-    public void testZLoginButtonIfOk() {
-        clickOn("#txtFieldLogin");
-        write(USEREXISTS);
-        clickOn("#txtFieldPassword");
-        write(PASSWORDMATCH);
-        clickOn("#btnLogin");
-        verifyThat("Welcome, Jon Calvo Gaminde", isVisible());
-    }
+    
     
     /**
      * Tests if when you try to log in without password, the application shows
@@ -122,7 +111,7 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
      * shows an alert dialog saying that the password is not correct.
      */
     @Test
-    public void testELoginButtonWithWrongPassw() {
+    public void testELoginButtonWithWrongPassword() {
         clickOn("#txtFieldLogin");
         write(USEREXISTS);
         clickOn("#txtFieldPassword");
@@ -135,10 +124,10 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
     /**
      * Tests if when you try to enter a really long username it reaches a point
      * where you can't write more, but if for some reason this fails, it must
-     * show an alert dialog saying that you must enter a valid username).
+     * show an alert dialog saying that you must enter a valid username.
      */
    @Test
-    public void testFLoginButtonWithMastodonteUsername() {
+    public void testFLoginButtonWithLargeUsername() {
         clickOn("#txtFieldLogin");
         write(LONGUSERNAME);
         clickOn("#txtFieldPassword");
@@ -150,8 +139,13 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
         clickOn("Aceptar");
     }
     
+    /**
+     * Tests if when you try to enter a really long password it reaches a point
+     * where you can't write more, but if for some reason this fails, it must
+     * show an alert dialog saying that you must enter a valid password.
+     */
     @Test
-    public void testFLoginButtonWithMastodontePassword() {
+    public void testGLoginButtonWithLargePassword() {
         clickOn("#txtFieldLogin");
         write(NONEXISTENTUSER);
         clickOn("#txtFieldPassword");
@@ -168,9 +162,22 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
      * showing the sign up options.
      */
    @Test
-    public void testGSignUpBtn() {
+    public void testHSignUpBtn() {
         clickOn("#btnSignUp");
         verifyThat("Sign Up", isVisible());
         clickOn("#btnCancel");
+    }
+    
+    /** 
+     * Tests if everything goes right when you enter valid parameters.
+     */
+    @Test
+    public void testZLoginButtonIfOk() {
+        clickOn("#txtFieldLogin");
+        write(USEREXISTS);
+        clickOn("#txtFieldPassword");
+        write(PASSWORDMATCH);
+        clickOn("#btnLogin");
+        verifyThat("Welcome, Jon Calvo Gaminde", isVisible());
     }
 }

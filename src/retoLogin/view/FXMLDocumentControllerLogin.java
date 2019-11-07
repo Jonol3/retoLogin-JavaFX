@@ -32,7 +32,7 @@ import retoLogin.exceptions.*;
 
 /**
  * FXML Controller class for the Login window
- * @author Daira Eguzkiza, Jon Calvo Gaminde
+ * @author Daira Eguzkiza Lamelas, Jon Calvo Gaminde
  */
 public class FXMLDocumentControllerLogin {
     

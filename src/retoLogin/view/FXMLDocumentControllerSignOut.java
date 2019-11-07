@@ -5,16 +5,19 @@
  */
 package retoLogin.view;
 
+import java.io.IOException;
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import retoLogin.User;
@@ -100,7 +103,20 @@ public class FXMLDocumentControllerSignOut {
      */
     @FXML
     private void handleButtonWorks(ActionEvent event) {
-        //TODO
+        try{
+            Parent root = null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("help.fxml"));
+            root = (Parent) loader.load();
+            FXMLDocumentControllerHelp viewController = loader.getController();
+            viewController.initStage(root);
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error has ocurred.");
+
+            alert.showAndWait();
+       }
     }
     
     /**
@@ -109,9 +125,9 @@ public class FXMLDocumentControllerSignOut {
      */
     @FXML
     private void handleButtonAbout(ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION, "Made by Jon, Unai and Daira.");
+        Alert alert = new Alert(AlertType.INFORMATION, "Made by Jon Calvo Gaminde, Unai Pérez Sánchez and Daira Eguzkiza Lamelas.");
         alert.setTitle("About");
-        alert.setHeaderText("Version 0.1");
+        alert.setHeaderText("Version 1.0");
         Optional<ButtonType> okButton = alert.showAndWait();
         if (okButton.isPresent() && okButton.get() == ButtonType.OK) {
             alert.close();

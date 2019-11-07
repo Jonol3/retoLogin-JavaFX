@@ -129,6 +129,7 @@ public class FXMLDocumentControllerSignUp{
      * @param newValue Object of type String
      */
     public void textChanged(ObservableValue observable, String oldValue, String newValue){
+        btnRegister.setDisable(true);
         if(tfLogin.getText().trim().length()>50){
             LOGGER.warning("The Login field is too long");
         }else if(tfFullName.getText().trim().length()>85){
@@ -143,7 +144,6 @@ public class FXMLDocumentControllerSignUp{
                 tfLogin.getText().trim().isEmpty()||
                 pfConfirm.getText().trim().isEmpty()||
                 pfPassword.getText().trim().isEmpty()){
-            btnRegister.setDisable(true);
         }else{
             btnRegister.setDisable(false);
         }
@@ -267,7 +267,7 @@ public class FXMLDocumentControllerSignUp{
             }catch(RegisterException ex){
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setHeaderText("Database error.");
+                alert.setHeaderText("Unexpected error happened.");
                 alert.show();
                 LOGGER.severe("Error: "+ex.getLocalizedMessage());
             }catch(AlreadyExistsException ex){

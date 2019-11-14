@@ -47,11 +47,16 @@ public class FXMLDocumentControllerLogin {
     private PasswordField txtFieldPassword;
     
     private Stage stage;
+    private Client client;
 
     User user = new User();
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     
@@ -131,7 +136,7 @@ public class FXMLDocumentControllerLogin {
                 user.setLogin(login);
                 user.setPassword(passwd);
 
-                Client client = ClientFactory.getClient();
+                
                 user = client.loginUser(user);
 
                 Parent root;

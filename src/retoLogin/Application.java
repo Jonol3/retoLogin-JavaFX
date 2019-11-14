@@ -10,6 +10,8 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import retoLogin.control.Client;
+import retoLogin.control.ClientFactory;
 import retoLogin.view.FXMLDocumentControllerLogin;
 
 /**
@@ -24,11 +26,14 @@ public class Application extends javafx.application.Application {
      */
     @Override
     public void start(Stage stage) throws IOException  {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("view/login.fxml"));
-            Parent root = (Parent) loader.load();
-            FXMLDocumentControllerLogin viewController = loader.getController();
-            viewController.setStage(stage);
-            viewController.initStage(root);
+        /*MODIFICACION DIN 13/11/2019*/
+        Client client = ClientFactory.getClient();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/login.fxml"));
+        Parent root = (Parent) loader.load();
+        FXMLDocumentControllerLogin viewController = loader.getController();
+        viewController.setStage(stage);
+        viewController.setClient(client);
+        viewController.initStage(root);
     }
 
     /**

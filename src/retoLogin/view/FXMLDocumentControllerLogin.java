@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,8 +22,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -36,6 +43,8 @@ import retoLogin.exceptions.*;
  */
 public class FXMLDocumentControllerLogin {
     
+    private User user = new User();
+    private Client client;
     
     @FXML
     private Button btnLogin;
@@ -47,17 +56,29 @@ public class FXMLDocumentControllerLogin {
     private PasswordField txtFieldPassword;
     
     private Stage stage;
-
-    User user = new User();
-
+ 
+    @FXML
+    private MenuItem about;
+    
+    /**
+     * Sets the scene created in the application for it to be used in this 
+     * class.
+     * @param stage 
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    
+    /**
+     * Sets the client so it only has to be created once.
+     * @param client 
+     */
+     public void setClient(Client client) {
+        client = client;
+     }
     
     /**
-     * Initializes the stage
+     * Sets the scene and shows the stage with it.
      * @param root The Parent of the scene
      */
     public void initStage(Parent root) {
@@ -68,6 +89,14 @@ public class FXMLDocumentControllerLogin {
         stage.setScene(scene);
         stage.show();
         
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+        public void handle(KeyEvent key) {
+        if (key.getCode() == KeyCode.F1) {
+            handleButtonWorks();
+            key.consume();
+        }
+    }
+});
     }
     
     /**
@@ -76,8 +105,9 @@ public class FXMLDocumentControllerLogin {
      */
     public void handleWindowShowing(WindowEvent event) {
         stage.setResizable(false);
-        addTextLimiter(txtFieldLogin, 30);
-        addTextLimiter(txtFieldPassword, 50);
+        addTextLimiter(txtFieldLogin, 50);
+        addTextLimiter(txtFieldPassword, 200);
+        //about.setAccelerator(new KeyCodeCombination(KeyCode.F1));
         
         btnLogin.setMnemonicParsing(true);
         btnLogin.setText("_Log in");
@@ -112,7 +142,7 @@ public class FXMLDocumentControllerLogin {
         Matcher m = p.matcher(login);
         boolean specialChars = m.find();
         //The limiter should do its job, but this code double checks
-        if (login.length() > 30 || specialChars) {
+        if (login.length() > 50 || specialChars || passwd.length() > 200) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Invalid username.");
             alert.setHeaderText(null);
@@ -131,7 +161,6 @@ public class FXMLDocumentControllerLogin {
                 user.setLogin(login);
                 user.setPassword(passwd);
 
-                Client client = ClientFactory.getClient();
                 user = client.loginUser(user);
 
                 Parent root;
@@ -213,8 +242,67 @@ public class FXMLDocumentControllerLogin {
             alert.showAndWait();
         }
     }
+      /**
+     * This method handle the actions when the user click the about button
+     * @param event The clicking event
+     */
+    @FXML
+    private void handleButtonAbout(ActionEvent event) {
+        Alert alert = new Alert(AlertType.INFORMATION, "Made by Jon Calvo Gaminde, Unai Pérez Sánchez and Daira Eguzkiza Lamelas.");
+        alert.setTitle("About");
+        alert.setHeaderText("Version 1.0");
+        Optional<ButtonType> okButton = alert.showAndWait();
+        if (okButton.isPresent() && okButton.get() == ButtonType.OK) {
+            alert.close();
+        }
+    }
+      /**
+     * This method handle the actions when the user click the close button
+     * @param event The clicking event
+     */
+    @FXML
+    private void handleButtonClose(ActionEvent event) {
+        Platform.exit();
+    }
     
+    /**
+     * This method handle the actions when the user click the how-it-works button
+     * @param event The clicking event
+     */
+     @FXML
+    private void handleButtonWorks(ActionEvent event) {
+        try{
+            Parent root = null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("help.fxml"));
+            root = (Parent) loader.load();
+            FXMLDocumentControllerHelp viewController = loader.getController();
+            viewController.initStage(root);
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error has ocurred.");
+
+            alert.showAndWait();
+       }
+    }
     
+    private void handleButtonWorks() {
+        try{
+            Parent root = null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("help.fxml"));
+            root = (Parent) loader.load();
+            FXMLDocumentControllerHelp viewController = loader.getController();
+            viewController.initStage(root);
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error has ocurred.");
+
+            alert.showAndWait();
+       }
+    }
     
     /**
      * Limits the login(username) textfield.
@@ -234,4 +322,6 @@ public class FXMLDocumentControllerLogin {
             }
         });
     }
+
+   
 }

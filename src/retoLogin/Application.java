@@ -10,6 +10,8 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import retoLogin.control.Client;
+import retoLogin.control.ClientFactory;
 import retoLogin.view.FXMLDocumentControllerLogin;
 
 /**
@@ -29,6 +31,8 @@ public class Application extends javafx.application.Application {
             FXMLDocumentControllerLogin viewController = loader.getController();
             viewController.setStage(stage);
             viewController.initStage(root);
+            Client client = ClientFactory.getClient();
+            viewController.setClient(client);
     }
 
     /**

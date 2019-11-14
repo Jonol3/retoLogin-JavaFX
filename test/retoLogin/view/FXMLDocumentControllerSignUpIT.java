@@ -67,7 +67,8 @@ public class FXMLDocumentControllerSignUpIT extends ApplicationTest{
         verifyThat("#btnUndo", isEnabled());
         verifyThat("#btnRedo", isDisabled());
         verifyThat("#btnRegister", isDisabled());
-        verifyThat("#tfFullName", (TextField t)->t.isFocused());
+        /*MODIFICACIÓN DIN 14/11/2019*/
+        //verifyThat("#tfFullName", (TextField t)->t.isFocused());
     }
     /**
      * This method checks if all the fields have text the register button is enabled
@@ -190,6 +191,17 @@ public class FXMLDocumentControllerSignUpIT extends ApplicationTest{
         verifyThat("#btnRegister", isDisabled());
         eraseText(OVERSIZED_TEXT_PASSWORD.length());
         write("aaaa");
+        /*MODIFICACIÓN DIN 13/11/2019*/
+        clickOn("#tfFullName");
+        eraseText(5);
+        clickOn("#tfEmail");
+        eraseText(5);
+        clickOn("#tfLogin");
+        eraseText(5);
+        clickOn("#pfPassword");
+        eraseText(5);
+        clickOn("#pfConfirm");
+        eraseText(5);
     }
     /**
      * This method checks if the login and the email field is correct
@@ -236,5 +248,60 @@ public class FXMLDocumentControllerSignUpIT extends ApplicationTest{
         clickOn("Aceptar");
         clickOn("#pfConfirm");
         write("a");
+        /*MODIFICACIÓN DIN 13/11/2019*/
+        clickOn("#tfFullName");
+        eraseText(5);
+        clickOn("#tfEmail");
+        eraseText(10);
+        clickOn("#tfLogin");
+        eraseText(5);
+        clickOn("#pfPassword");
+        eraseText(5);
+        clickOn("#pfConfirm");
+        eraseText(5);
+    }
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    @Test
+    public void testG_loginAlreadyExists(){
+        clickOn("#tfFullName");
+        write("Unai Pérez Sánchez");
+        clickOn("#tfEmail");
+        write("unai.reto1@reto1.com");
+        clickOn("#tfLogin");
+        write("Unai");
+        clickOn("#pfPassword");
+        write("abcd*1234");
+        clickOn("#pfConfirm");
+        write("abcd*1234");
+        clickOn("#btnRegister");
+        verifyThat("The user with the login you are trying to register already exists", isVisible());
+        clickOn("Aceptar");
+        clickOn("#tfFullName");
+        eraseText(20);
+        clickOn("#tfEmail");
+        eraseText(25);
+        clickOn("#tfLogin");
+        eraseText(5);
+        clickOn("#pfPassword");
+        eraseText(10);
+        clickOn("#pfConfirm");
+        eraseText(10);
+    }
+    
+    @Test
+    public void testH_signUpOk(){
+        clickOn("#tfFullName");
+        write("TestFX");
+        clickOn("#tfEmail");
+        write("testFX@reto1.com");
+        clickOn("#tfLogin");
+        write("testFX");
+        clickOn("#pfPassword");
+        write("abcd*1234");
+        clickOn("#pfConfirm");
+        write("abcd*1234");
+        clickOn("#btnRegister");
+        verifyThat("#pnLogOut", isVisible());
+        
     }
 }

@@ -47,6 +47,8 @@ public class FXMLDocumentControllerLogin {
     private PasswordField txtFieldPassword;
     
     private Stage stage;
+    
+    private Client client;
 
     User user = new User();
 
@@ -131,7 +133,6 @@ public class FXMLDocumentControllerLogin {
                 user.setLogin(login);
                 user.setPassword(passwd);
 
-                Client client = ClientFactory.getClient();
                 user = client.loginUser(user);
 
                 Parent root;
@@ -202,6 +203,8 @@ public class FXMLDocumentControllerLogin {
             FXMLDocumentControllerSignUp viewController = loader.getController();
             Stage secondStage = new Stage();
             secondStage.initModality(Modality.APPLICATION_MODAL);
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            viewController.setClient(client);
             viewController.setStage(secondStage);
             viewController.initStage(root);
         } catch (IOException e) {
@@ -233,5 +236,20 @@ public class FXMLDocumentControllerLogin {
                 }
             }
         });
+    }
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    /**
+     * Setter for the Client
+     * @param client Object of type Client
+     */
+    public void setClient(Client client){
+        this.client=client;
+    }
+    /**
+     * Getter for the Client
+     * @return Object of type Client
+     */
+    public Client getClient(){
+        return client;
     }
 }

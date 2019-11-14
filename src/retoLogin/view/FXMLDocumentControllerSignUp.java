@@ -21,14 +21,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import retoLogin.User;
 import retoLogin.control.Client;
-import retoLogin.control.ClientFactory;
 import retoLogin.exceptions.*;
 
 
@@ -38,13 +43,21 @@ import retoLogin.exceptions.*;
  * @author Unai Pérez Sánchez
  */
 public class FXMLDocumentControllerSignUp{
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    /**
+     * This is the default constructor of the sign up document controller
+     */
+    public FXMLDocumentControllerSignUp() {
+    }
+    
+    
     private Logger LOGGER = Logger.getLogger("retoLogin.view.FXMLDocumentControllerSignUp");
     
     private Stage stage;
     
     private User user = new User();
     
-    private Client client = ClientFactory.getClient();
+    private Client client;
     /*
     A-Z characters allowed
     a-z characters allowed
@@ -75,22 +88,39 @@ public class FXMLDocumentControllerSignUp{
     private Button btnRedo;
     @FXML
     private Button btnRegister;
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    //We create a menu bar to show the menu on top
+    private MenuBar menuBar = new MenuBar();
+    //We create an element on the menu bar
+    private Menu menu = new Menu("Help");
+    //We add a menu item to the menu element
+    private MenuItem menuItem = new MenuItem("How it works");
     /**
      * Initializes the stage
      * @param root The Parent of the scene
      */
     public void initStage(Parent root) {
         LOGGER.info("Initializing Sign Up stage");
-        
         Scene scene = new Scene(root);
-        
+        /*MODIFICACIÓN DIN 13/11/2019*/
+        //We add a menu to the menu bar
+        menuBar.getMenus().addAll(menu);
+        //We add a menu item to the menu element
+        menu.getItems().addAll(menuItem);
+        //We add the menu bar to the stage
+        ((AnchorPane)scene.getRoot()).getChildren().addAll(menuBar);
         stage.setScene(scene);
         
         stage.setTitle("Sign Up");
         stage.setResizable(false);
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::handleWindowClosing);
-        
+        /*MODIFICACIÓN DIN 13/11/2019*/
+        //We set the accelerator to F1 key
+        menuItem.setAccelerator(new KeyCodeCombination(KeyCode.F1));
+        //Because otherwise JavaFX should focus the first TextField
+        root.requestFocus();
+        menuItem.setOnAction(this::handleHowItWorksHelp);
         btnRegister.setOnAction(this::handleBtnRegister);
         btnRedo.setOnAction(this::handleBtnRedo);
         btnUndo.setOnAction(this::handleBtnUndo);
@@ -108,7 +138,25 @@ public class FXMLDocumentControllerSignUp{
         
         
         stage.show();
-    }    
+    }
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    public void handleHowItWorksHelp(ActionEvent event){
+        LOGGER.info("Help is going to be displayed");
+        try{
+            Parent root = null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("help.fxml"));
+            root = (Parent) loader.load();
+            FXMLDocumentControllerHelp viewController = loader.getController();
+            viewController.initStage(root);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error has ocurred.");
+
+            alert.showAndWait();
+       }
+    }
     /**
      * This method handle the actions when the user click on close button of the window
      * @param e Object of type WindowEvent
@@ -178,8 +226,11 @@ public class FXMLDocumentControllerSignUp{
         btnRegister.setDisable(true);
         //Redo button will be disabled
         btnRedo.setDisable(true);
+        /*MODIFICACIÓN DIN 13/11/2019*/
+        /*If the field have the focus the F1 help would not be displayed*/
         //Full Name TextField will have the focus
-        tfFullName.requestFocus();
+        //tfFullName.requestFocus();
+        
         
         btnCancel.setMnemonicParsing(true);
         btnCancel.setText("_Cancel");
@@ -307,6 +358,7 @@ public class FXMLDocumentControllerSignUp{
             
         }
     }
+        
     /**
      * Setter for the stage
      * @param stage Object of type Stage
@@ -320,5 +372,22 @@ public class FXMLDocumentControllerSignUp{
      */
     public Stage getStage(){
         return stage;
+    }
+    
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    
+    /**
+     * Setter for the client
+     * @param client Object of type Client
+     */
+    public void setClient(Client client){
+        this.client=client;
+    }
+    /**
+     * Getter for the client
+     * @return Object of type Client
+     */
+    public Client getClient(){
+        return client;
     }
 }

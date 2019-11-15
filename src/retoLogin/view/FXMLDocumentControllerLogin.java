@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -44,7 +45,7 @@ import retoLogin.exceptions.*;
 public class FXMLDocumentControllerLogin {
     
     private User user = new User();
-    private Client client;
+    private Client cliente;
     
     @FXML
     private Button btnLogin;
@@ -59,6 +60,11 @@ public class FXMLDocumentControllerLogin {
  
     @FXML
     private MenuItem about;
+    @FXML
+    private MenuItem howItWorks;
+    
+    @FXML
+    private Menu menuHelp;
     
     /**
      * Sets the scene created in the application for it to be used in this 
@@ -74,7 +80,7 @@ public class FXMLDocumentControllerLogin {
      * @param client 
      */
      public void setClient(Client client) {
-        client = client;
+        cliente = client;
      }
     
     /**
@@ -161,7 +167,7 @@ public class FXMLDocumentControllerLogin {
                 user.setLogin(login);
                 user.setPassword(passwd);
 
-                user = client.loginUser(user);
+                user = cliente.loginUser(user);
 
                 Parent root;
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("signOut.fxml"));

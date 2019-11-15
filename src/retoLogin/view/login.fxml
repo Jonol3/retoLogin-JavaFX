@@ -44,10 +44,10 @@
       </Text>
       <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Help" id="menuHelp" fx:id="menuHelp">
             <items>
                 <MenuItem id="optAbout" fx:id="about" onAction="#handleButtonAbout" mnemonicParsing="false" text="about"> </MenuItem>
-                <MenuItem id="optHowWorks" onAction="#handleButtonWorks" mnemonicParsing="false" text="how it works"> </MenuItem>
+                <MenuItem id="optHowWorks" fx:id="howItWorks" onAction="#handleButtonWorks" mnemonicParsing="false" text="how it works"> </MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Options">

@@ -12,6 +12,7 @@ import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import org.testfx.robot.Motion;
 import retoLogin.Application;
 
 /**
@@ -123,6 +124,7 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
      */
     @Test
     public void testELoginButtonWithWrongPassw() {
+        
         clickOn("#txtFieldLogin");
         write(USEREXISTS);
         clickOn("#txtFieldPassword");
@@ -131,6 +133,28 @@ public class FXMLDocumentControllerLoginIT extends ApplicationTest{
         verifyThat("The password you have entered is not correct.", isVisible());
         clickOn("Aceptar");
     }
+    /*
+    @Test
+    public void testEEAbout() {
+        clickOn("#menuHelp");
+        clickOn("#about");
+        
+        verifyThat("Version 1.0", isVisible());
+        clickOn("Aceptar");
+    }
+    
+     @Test
+    public void testEAHowItWorks() {
+        clickOn("#menuHelp");
+        clickOn("#howItWorks");
+        
+        verifyThat("Login/LogOut: Help", isVisible());
+        clickOn("Aceptar");
+        moveTo("#pnHelp");
+        moveBy(375, -300, Motion.DIRECT);
+        clickOn();
+    }
+    */
     
     /**
      * Tests if when you try to enter a really long username it reaches a point
